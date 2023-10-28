@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import os
 import openai
 openai.organization = "org-pTFO2JxZoSba7tx1UEqvixSo"
-openai.api_key = "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"
+openai.api_key = "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"
 openai.Model.list()
 from analysis import saveChart
 from qualityChecker import checkQuality
