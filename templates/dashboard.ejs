@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!-- Created by BookBuzz |www.youtube.com/ReadRiseYT-->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> BookBuzz </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <script src="/static/script.js"></script>
+
+    <script>
+
+        function getAnalysis() {
+            console.log("getAnalysis called")
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var res = JSON.parse(this.response)
+                    console.log(res);
+
+                    var pie = document.getElementsByClassName("pie_analysis");
+                    var authorrating = document.getElementsByClassName("authorvsrating");
+                    var genre = document.getElementsByClassName("genrewise");
+                    var authorwise = document.getElementsByClassName("authorwise");
+                    var topbook = document.getElementsByClassName("topbook");
+                    var yearlysales = document.getElementsByClassName("yearlysales");
+                    var ratingvssales = document.getElementsByClassName("ratingvssales");
+
+
+                    for (var i = pie.length - 1; i >= 0; --i) {
+                        pie[i].setAttribute("src", res[0]);
+                    }
+
+                    for (var i = authorrating.length - 1; i >= 0; --i) {
+                        authorrating[i].setAttribute("src", res[1]);
+                    }
+
+                    for (var i = genre.length - 1; i >= 0; --i) {
+                        genre[i].setAttribute("src", res[2]);
+                    }
+
+                    for (var i = authorwise.length - 1; i >= 0; --i) {
+                        authorwise[i].setAttribute("src", res[3]);
+                    }
+
+                    for (var i = topbook.length - 1; i >= 0; --i) {
+                        topbook[i].setAttribute("src", res[4]);
+                    }
+
+                    for (var i = yearlysales.length - 1; i >= 0; --i) {
+                        yearlysales[i].setAttribute("src", res[5]);
+                    }
+
+                    for (var i = ratingvssales.length - 1; i >= 0; --i) {
+                        ratingvssales[i].setAttribute("src", res[6]);
+                    }
+
+                    console.log('updated!!');
+                }
+            };
+            xhttp.open("GET", "getAnalysis", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            getAnalysis()
+        }, false);
+    </script>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class="fa-solid fa-b icon"></i>
+            <div class="logo_name">BookBuzz</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <!-- <li>
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Search...">
+                <span class="tooltip">Search</span>
+            </li> -->
+            <li>
+                <a href="/dashboard">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="/autogeneration">
+                    <i class="fa-solid fa-pen-clip fa-sm"></i>
+                    <span class="links_name">Generate Post</span>
+                </a>
+                <span class="tooltip">Generate Post</span>
+            </li>
+            <li>
+                <a href="/qualityEvaluation">
+                    <i class="fa-solid fa-spell-check"></i>
+                    <span class="links_name">Quality Evaluation</span>
+                </a>
+                <span class="tooltip">Quality Evaluation</span>
+            </li>
+            <li>
+                <a href="/salesPrediction">
+                    <i class="fa-solid fa-robot"></i>
+                    <span class="links_name">Sales Prediction</span>
+                </a>
+                <span class="tooltip">Sales Prediction</span>
+            </li>
+
+            <li class="profile">
+                <div class="profile-details">
+                    <div class="name_job">
+                        <div class="name">Anuj & Sakshi</div>
+                        <div class="job">Developers</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out"></i>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="text">Dashboard</div>
+        <br>
+
+
+        <!-- Slider -->
+        <section id="tranding">
+            <div class="container">
+                <div class="swiper tranding-slider">
+                    <div class="swiper-wrapper">
+                        <!-- Slide-start -->
+                        <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="pie_analysis" src="" alt="Most Preferred Language">
+                            </div>
+                            <!-- <div class="tranding-slide-content"> -->
+
+                            <!-- <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Special Pizza
+                                    </h2>
+
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <!-- Slide-end -->
+                        <!-- Slide-start -->
+                        <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="authorvsrating" src="" alt="Author VS Rating">
+                            </div>
+                            <!-- <div class="tranding-slide-content"> -->
+
+                            <!-- <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Meat Ball
+                                    </h2>
+
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <!-- Slide-end -->
+                        <!-- Slide-start -->
+                        <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="topbook" src="" alt="Most Preferred Author">
+                            </div>
+                            <div class="tranding-slide-content">
+
+                                <!-- <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Burger
+                                    </h2>
+
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- Slide-end -->
+                        <!-- Slide-start -->
+                        <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="genrewise" src="" alt="Most Preferred Genre">
+                            </div>
+                            <!-- <div class="tranding-slide-content"> -->
+
+                            <!-- <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Frish Curry
+                                    </h2>
+
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <!-- Slide-end -->
+                        <!-- Slide-start -->
+                        <!-- <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="authorwise" src="" alt="Most Preferred Author">
+                            </div>
+                            <div class="tranding-slide-content">
+
+                            <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Pane Cake
+                                    </h2>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Slide-end -->
+                        <!-- Slide-start -->
+                        <!-- <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="yearlysales" src="" alt="Yearly Sales">
+                            </div>
+                            <div class="tranding-slide-content">
+
+                            <div class="tranding-slide-content-bottom">
+                                    <h2 class="food-name">
+                                        Pane Cake
+                                    </h2>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="swiper-slide tranding-slide">
+                            <div class="tranding-slide-img">
+                                <img class="ratingvssales" src="" alt="Rating vs Yearly Sales">
+                            </div>
+                        </div>
+                        <!-- Slide-end -->
+                    </div>
+
+                    <div class="tranding-slider-control">
+                        <div class="swiper-button-prev slider-arrow">
+                            <ion-icon name="arrow-back-outline"></ion-icon>
+                        </div>
+                        <div class="swiper-button-next slider-arrow">
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </section>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+        //  
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();//calling the function(optional)
+        });
+
+        // searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+        //     sidebar.classList.toggle("open");
+        //     menuBtnChange(); //calling the function(optional)
+        // });
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+            } else {
+                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+            }
+        }
+
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <!-- <script src="/static/script.js"></script> -->
+    <script>
+        var TrandingSlider = new Swiper('.tranding-slider', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            loop: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }
+        });
+    </script>
+</body>
+
+</html>

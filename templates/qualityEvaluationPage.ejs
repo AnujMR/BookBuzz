@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> BookBuzz </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class="fa-solid fa-b icon"></i>
+            <div class="logo_name">BookBuzz</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <!-- <li>
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Search...">
+                        <span class="tooltip">Search</span>
+                    </li> -->
+            <li>
+                <a href="/dashboard">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="/autogeneration">
+                    <i class="fa-solid fa-pen-clip fa-sm"></i>
+                    <span class="links_name">Generate Post</span>
+                </a>
+                <span class="tooltip">Generate Post</span>
+            </li>
+            <li>
+                <a href="/qualityEvaluation">
+                    <i class="fa-solid fa-spell-check"></i>
+                    <span class="links_name">Quality Evaluation</span>
+                </a>
+                <span class="tooltip">Quality Evaluation</span>
+            </li>
+            <li>
+                <a href="/salesPrediction">
+                    <i class="fa-solid fa-robot"></i>
+                    <span class="links_name">Sales Prediction</span>
+                </a>
+                <span class="tooltip">Sales Prediction</span>
+            </li>
+
+            <li class="profile">
+                <div class="profile-details">
+                    <div class="name_job">
+                        <div class="name">Anuj & Sakshi</div>
+                        <div class="job">Developers</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out"></i>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="text">Quality Evaluation</div>
+        <br>
+        <div class="row" style="margin-left: 10rem;">
+            <div class="col-md-7">
+                <form action="/qualityEvaluation" method="post" name="f1">
+                    <div style="margin-top: 20px;">
+                        <p class="text-field-title" style="font-weight: 600; font-size: 25px;">Blog</p>
+                        <textarea name="blog" id="blogField" cols="80" rows="15" class="text-field left-margin"
+                            style="text-align: start;"></textarea>
+                    </div>
+                    <button type="button" onclick="evaluateText()" class="generate-btn left-margin"
+                        id="generateBtn">Evaluate</button>
+
+                </form>
+            </div>
+            <div class="col-md-3">
+                <div style="margin-top: 20px;">
+                    <div id="loader" class="loader" style="display: none; margin-top: 170px;"></div>
+                    <p class="scores" style="font-size: 25px;">Score</p>
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Cohesion : </p>
+                        <p class="scores" id="cohesion"> </p>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Syntax : </p>
+                        <p class="scores" id="syntax"> </p>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Vocabulary : </p>
+                        <p class="scores" id="vocabulary"> </p>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Phraseology : </p>
+                        <p class="scores" id="phraseology"> </p>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Grammar : </p>
+                        <p class="scores" id="grammar"> </p>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="score_div">
+                        <p class="scores">Conventions : </p>
+                        <p class="scores" id="conventions"> </p>
+                    </div>
+
+                    <br>
+                    <br>
+                    <p class="scores">Overall Quality : </p>
+                    <p class="scores" id="overall"> </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();//calling the function(optional)
+        });
+
+        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+            sidebar.classList.toggle("open");
+            menuBtnChange(); //calling the function(optional)
+        });
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+            } else {
+                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+            }
+        }
+
+        function evaluateText() {
+
+            let blog = document.f1.blog.value;
+
+            if (blog === "") {
+                return;
+            }
+
+            var x = document.getElementsByClassName('scores');
+            var i;
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = 'none';
+            }
+
+            var x = document.getElementsByClassName('score_div');
+            var i;
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = 'none';
+            }
+
+            document.getElementById("loader").style.display = "inline-block";
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+
+                    document.getElementById("loader").style.display = "none";
+
+                    var res = JSON.parse(this.response);
+                    document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+                    document.getElementById("syntax").innerHTML = res[0][1].toFixed(2);
+                    document.getElementById("vocabulary").innerHTML = res[0][2].toFixed(2);
+                    document.getElementById("phraseology").innerHTML = res[0][3].toFixed(2);
+                    document.getElementById("grammar").innerHTML = res[0][4].toFixed(2);
+                    document.getElementById("conventions").innerHTML = res[0][5].toFixed(2);
+                    var avg = res[1].toFixed(2)
+
+                    var x = document.getElementsByClassName('scores');
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = 'inline';
+                    }
+
+                    var x = document.getElementsByClassName('score_div');
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = 'block';
+                        if (res[0][i].toFixed(2) >= 3.5) {
+                            x[i].style.backgroundColor = "rgb(5, 236, 16)"
+                        } else if (res[0][i].toFixed(2) >= 3) {
+                            x[i].style.backgroundColor = "rgb(236, 178, 5)"
+                        } else {
+                            x[i].style.backgroundColor = "rgb(236, 5, 5)"
+                        }
+
+                    }
+
+                    if (avg >= 4) {
+                        document.getElementById("overall").innerHTML = "Very Good";
+                    } else if (avg >= 3.5) {
+                        document.getElementById("overall").innerHTML = "Good";
+                    } else if (avg >= 3) {
+                        document.getElementById("overall").innerHTML = "Average";
+                    } else {
+                        document.getElementById("overall").innerHTML = "Poor";
+                    }
+
+                    console.log(this.responseText)
+
+                }
+            };
+            xhttp.open("POST", "qualityEvaluation", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            let body = `blog=${blog}`
+            xhttp.send(body);
+        }
+    </script>
+</body>
+
+</html>

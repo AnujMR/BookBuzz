@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- Created by BookBuzz |www.youtube.com/ReadRiseYT-->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> BookBuzz </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class="fa-solid fa-b icon"></i>
+            <div class="logo_name">BookBuzz</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <!-- <li>
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search...">
+                    <span class="tooltip">Search</span>
+                </li> -->
+            <li>
+                <a href="/dashboard">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="/autogeneration">
+                    <i class="fa-solid fa-pen-clip fa-sm"></i>
+                    <span class="links_name">Generate Post</span>
+                </a>
+                <span class="tooltip">Generate Post</span>
+            </li>
+            <li>
+                <a href="/qualityEvaluation">
+                    <i class="fa-solid fa-spell-check"></i>
+                    <span class="links_name">Quality Evaluation</span>
+                </a>
+                <span class="tooltip">Quality Evaluation</span>
+            </li>
+            <li>
+                <a href="/salesPrediction">
+                    <i class="fa-solid fa-robot"></i>
+                    <span class="links_name">Sales Prediction</span>
+                </a>
+                <span class="tooltip">Sales Prediction</span>
+            </li>
+
+            <li class="profile">
+                <div class="profile-details">
+                    <div class="name_job">
+                        <div class="name">Anuj & Sakshi</div>
+                        <div class="job">Developers</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out"></i>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+
+        <div class="text" style="margin-bottom: 5rem;">Generate Post</div>
+        <br>
+        <div class="row" style="margin-left: 10rem;">
+            <div class="col-md-5">
+                <form action="/autogeneration" method="post" name="f1">
+                    <div>
+                        <p class="text-field-title">Book Name</p>
+                        <input type="text" name="name" id="nameField" class="text-field left-margin">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p class="text-field-title">Genre</p>
+                        <input type="text" name="genre" id="genreField" class="text-field left-margin">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p class="text-field-title">Author Name</p>
+                        <input type="text" name="author" id="authorField" class="text-field left-margin">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p class="text-field-title">Short Description</p>
+                        <textarea name="description" id="descriptionField" cols="50" rows="5"
+                            class="text-field left-margin" style="text-align: start;"></textarea>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p class="text-field-title">Keywords (optional)</p>
+                        <input type="text" name="keywords" id="keywordsField" class="text-field left-margin"
+                            style="text-align: start;">
+                    </div>
+                    <button type="button" onclick="generateText()" class="generate-btn left-margin"
+                        id="generateBtn">Generate</button>
+
+                </form>
+            </div>
+            <div class="col-md-5">
+                <div style="margin-top: 20px;">
+                    <p class="text-field-title">Generated Text</p>
+                    <textarea readonly="true" name="generated_txt" id="generated-txt" cols="70" rows="20"
+                        class="text-field left-margin"
+                        style="text-align: start; background-color:rgb(60, 61, 61); color: white;"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();//calling the function(optional)
+        });
+
+
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+            } else {
+                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+            }
+        }
+
+        function generateText() {
+
+            let name = document.f1.name.value;
+            let genre = document.f1.genre.value;
+            let author = document.f1.author.value;
+            let description = document.f1.description.value;
+            let keywords = document.f1.keywords.value;
+
+            if (name === "" || genre === "" || author === "" || description === "" || keywords === "") {
+                return;
+            }
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("generated-txt").value = this.responseText;
+                }
+            };
+            xhttp.open("POST", "autogeneration", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            let body = `name=${name}&genre=${genre}&author=${author}&description=${description}&keywords=${keywords}`
+            xhttp.send(body);
+        }
+    </script>
+</body>
+
+</html>

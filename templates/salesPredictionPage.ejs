@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> BookBuzz </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class="fa-solid fa-b icon"></i>
+            <div class="logo_name">BookBuzz</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <!-- <li>
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Search...">
+                        <span class="tooltip">Search</span>
+                    </li> -->
+            <li>
+                <a href="/dashboard">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="/autogeneration">
+                    <i class="fa-solid fa-pen-clip fa-sm"></i>
+                    <span class="links_name">Generate Post</span>
+                </a>
+                <span class="tooltip">Generate Post</span>
+            </li>
+            <li>
+                <a href="/qualityEvaluation">
+                    <i class="fa-solid fa-spell-check"></i>
+                    <span class="links_name">Quality Evaluation</span>
+                </a>
+                <span class="tooltip">Quality Evaluation</span>
+            </li>
+            <li>
+                <a href="/salesPrediction">
+                    <i class="fa-solid fa-robot"></i>
+                    <span class="links_name">Sales Prediction</span>
+                </a>
+                <span class="tooltip">Sales Prediction</span>
+            </li>
+
+            <li class="profile">
+                <div class="profile-details">
+                    <div class="name_job">
+                        <div class="name">Anuj & Sakshi</div>
+                        <div class="job">Developers</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out"></i>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="text">Sales Prediction</div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row" style="margin-left: 10rem;">
+            <div class="col-md-5">
+                <form action="/salesPrediction" method="post" name="f1">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div>
+                                <p class="text-field-title">Book Name</p>
+                                <input type="text" name="name" id="nameField" class="text-field left-margin">
+                            </div>
+                            <datalist id="genres">
+                                {% set genreList=["Adventure", "Action" , "Documentary","Drama","Comedy","Crime","Horror","Western","Romance","SciFi","Animation","Thriller","Children","(nogenres listed)","Mystery","Fantasy","Musical","Film-Noir"] %}
+                                    {% for i in range(0, genreList|length)%}
+                                        <option>
+                                            {{genreList[i]}}
+                                        </option>
+                                    {% endfor %}
+                            </datalist>
+                            <datalist id="publishers">
+                                {% set publisherList = [
+                                "McGraw Hill - NTC",
+                                "Carol Pub Group",
+                                "Hyperion Books",
+                                "Pocket",
+                                "Viking Books",
+                                "Bulfinch Press",
+                                "HarperCollins",
+                                "Bhaktivedanta Book Trust",
+                                "Bantam Books",
+                                "Main Street Books",
+                                "Penguin Books",
+                                "HarperSanFrancisco",
+                                "Warner Books",
+                                "HarperCollins Publishers",
+                                "New World Library",
+                                "Brooks Cole",
+                                "Prentice Hall",
+                                "W.H. Freeman & Company",
+                                "Dutton Books",
+                                "Educational Development Corporation",
+                                "Hyperion",
+                                "William Morrow & Company",
+                                "Meadowbrook",
+                                "Perigee Books",
+                                "Workman Publishing",
+                                "Horizon",
+                                "Penguin Putnam Books for Young Readers",
+                                "Ballantine Books",
+                                "Bantam Doubleday Dell",
+                                "Jones & Bartlett Pub",
+                                "W H Freeman & Co",
+                                "Tor Fantasy",
+                                "John Wiley & Sons",
+                                "Anchor",
+                                "Harvest Books",
+                                "B.T. Batsford",
+                                "Chess Enterprises",
+                                "Dover Publications",
+                                "Scribner Paper Fiction",
+                                "Plume Books",
+                                "Riverhead Books",
+                                "Perennial",
+                                "Fireside",
+                                "Simon & Schuster",
+                                "Touchstone",
+                                "Vintage",
+                                "Harcourt",
+                                "Doubleday Books",
+                                "Pocket Books",
+                                "Dell Publishing Company",
+                                "Pub Group West",
+                                "Del Rey Books",
+                                "Eos",
+                                "Nuova Eri Rizzoli",
+                                "Silhouette",
+                                "Penguin USA",
+                                "Berkley Pub Group",
+                                "Random House Large Print",
+                                "Harper Mass Market Paperbacks",
+                                "Harlequin",
+                                "Zebra Books",
+                                "Avon",
+                                "Pond Publishing",
+                                "Hoffmann & Campe",
+                                "Edaf",
+                                "Planeta Pub Corp",
+                                "Random House Audio",
+                                "Scholastic",
+                                "Valdemar",
+                                "Santillana USA Publishing Company",
+                                "Ediciones B",
+                                "Anagrama",
+                                "Debate",
+                                "Ediciones SM",
+                                "Distribooks",
+                                "Fawcett Books",
+                                "Tor Books",
+                                "Vintage Books USA",
+                                "Villard Books",
+                                "Henry Holt & Company",
+                                "Mariner Books",
+                                "Washington Square Press",
+                                "Ace Books",
+                                "New Amer Library",
+                                "Random House",
+                                "Random House Trade Paperbacks",
+                                "Picador",
+                                "Grove Press",
+                                "Bantam",
+                                "Adams Media Corporation",
+                                "Aladdin",
+                                "Back Bay Books",
+                                "Signet Books",
+                                "University of North Carolina Press",
+                                "Not Avail",
+                                "Random House Inc",
+                                "Alfred A. Knopf",
+                                "Berkley Publishing Group",
+                                "Jove Books",
+                                "Simon Pulse",
+                                "Audioworks",
+                                "Skylark Books",
+                                "John M. Hardy",
+                                "Macromedia Press",
+                                "Mira",
+                                "Ivy Books",
+                                "Kensington Publishing Corporation",
+                                "St. Martin's Paperbacks",
+                                "Signet Book",
+                                "Leisure Books",
+                                "Avon Books",
+                                "Mira Books",
+                                "Warner Forever",
+                                "Dell",
+                                "Morrow Cookbooks",
+                                "Currency",
+                                "Consortium Book Sales & Dist",
+                                "W.W. Norton & Company",
+                                "Putnam Pub Group",
+                                "Star Trek",
+                                "Delta",
+                                "Longstreet Press",
+                                "Lectorum Publications",
+                                "Penguin Books Ltd",
+                                "Diogenes Verlag",
+                                "Goldmann",
+                                "HarperEntertainment",
+                                "Houghton Mifflin Company",
+                                "Spectra Books",
+                                "Roc",
+                                "University of Illinois Press",
+                                "Del Rey",
+                                "Baen",
+                                "Dawnsign Press",
+                                "Spectra",
+                                "Regan Books",
+                                "Deaf Life Press",
+                                "Holt Rinehart and Winston",
+                                "Real Comet Press",
+                                "Weatherhill Inc.",
+                                "St. Martin's Griffin",
+                                "Citadel Press",
+                                "Thorsons Publishers",
+                                "Daw Books",
+                                "Llewellyn Publications",
+                                "Weiser Books",
+                                "Bookking International",
+                                "Picador USA",
+                                "Actes Sud",
+                                "Le Livre de Poche",
+                                "Anchor Books/Doubleday",
+                                "Donning Company Publishers",
+                                "Smithmark Pub",
+                                "Independent Pub Group",
+                                "Oxford University Press",
+                                "Guernica Editions",
+                                "Xlibris Corporation",
+                                "Gallimard",
+                                "Editions QuÃ©bec/AmÃ©rique",
+                                "Dtv",
+                                "Scribner",
+                                "Warner Vision",
+                                "Harper Mass Market Paperbacks (Mm)",
+                                "McGraw-Hill",
+                                "Diogenes Verlag AG",
+                                "New American Library",
+                                "Wizards of the Coast",
+                                "Llewellyn Pubns",
+                                "distributed by Houghton Mifflin",
+                                "Pinnacle Books",
+                                "Barbour Publishing",
+                                "Revell",
+                                "Forge Books",
+                                "St. Martin's Press",
+                                "Penguin Putnam~mass",
+                                "Collier Books",
+                                "Pocket Star",
+                                "Zondervan",
+                                "Dorset Press",
+                                "Putnam Publishing Group",
+                                "Pan Publishing",
+                                "McFarland & Company",
+                                "Yale University Press",
+                                "St Martins Pr",
+                                "University of Nebraska Press",
+                                "Writings of Mary Baker Eddy",
+                                "University of Washington Press",
+                                "University of Hawaii Press",
+                                "Broadway",
+                                "University of Massachusetts Press",
+                                "Arte Publico Press",
+                                "Houghton Mifflin College",
+                                "Signet Classics",
+                                "MacMillan Publishing Company.",
+                                "HarperTorch",
+                                "Little Brown & Co",
+                                "Seal Press (WA)",
+                                "Chronicle Books Llc",
+                                "Publishamerica",
+                                "Walk Worthy Press",
+                                "William Morrow",
+                                "W. W. Norton & Company",
+                                "Duke University Press",
+                                "Gramercy Books",
+                                "Chronicle Books",
+                                "Dr Lonnie E Maness",
+                                "Farrar Straus Giroux",
+                                "New Directions Publishing Corporation",
+                                "Tyndale House Publishers",
+                                "Dell Publishing",
+                                "Laurel-Leaf Books",
+                                "Harpercollins Juvenile Books",
+                                "Frigate Books",
+                                "Maeva",
+                                "Trafalgar Square",
+                                "Edhasa",
+                                "Lumen Espana",
+                                "Ediciones Destino",
+                                "Viking",
+                                "Plaza & JanÃ©s Editores",
+                                "Rayo",
+                                "Lengua de Trapo",
+                                "HarperPrism",
+                                "Miramax",
+                                "Lb May & Assoc Inc",
+                                "Headline Book Publishing",
+                                "Aspect",
+                                "Counterpoint Press",
+                                "Falmer Press",
+                                "Cotovia",
+                                "Norma",
+                                "Orion Publishing Co",
+                                "Carol Publishing Corporation",
+                                "Atria",
+                                "Olaneta",
+                                "Domain Enterprises",
+                                "Editions 10/18",
+                                "LGF",
+                                "Seuil",
+                                "Thomas Nelson Inc",
+                                "Thienemann Verlag",
+                                "Distribooks Inc",
+                                "Columna",
+                                "Editorial PÃ²rtic",
+                                "Edicions 62",
+                                "Regal Books",
+                                "Inspirio",
+                                "Sterling Pub Co Inc",
+                                "Harrison House",
+                                "Joint Board of Christian Education of Australia and New Zealand",
+                                "Smithmark Publishers",
+                                "Multnomah",
+                                "Lion Publishing Corporation",
+                                "Alba House",
+                                "Onyx Books",
+                                "Corgi Books",
+                                "Bantam Dell Pub Group",
+                                "Time-Life Books",
+                                "Warner Books Inc",
+                                "Puffin Books",
+                                "Delacorte Books for Young Readers",
+                                "Delacorte Press",
+                                "Benedikt Taschen Verlag",
+                                "Vintage Books Canada",
+                                "Timberholme Books Ltd.",
+                                "McClelland & Stewart",
+                                "Firefly Books Ltd",
+                                "For Dummies",
+                                "Prestel",
+                                "Lorenz Books",
+                                "Warwick Publishing",
+                                "McClelland & Stewart Ltd",
+                                "LÃ?Â¼bbe",
+                                "Norstedt",
+                                "Tor Books (Mm)",
+                                "New Amer Library (Mm)",
+                                "Heyne",
+                                "Bull's Eye Publishing",
+                                "Globe Pequot",
+                                "Penguin Putnam~trade",
+                                "Broadway Books",
+                                "Worldwide Library",
+                                "Arco Pub",
+                                "Wadsworth Publishing",
+                                "Cambridge University Press",
+                                "Cliffs Notes",
+                                "NTC/Contemporary Publishing Company",
+                                "Palgrave MacMillan",
+                                "University of Chicago Press",
+                                "McGraw-Hill Trade",
+                                "Augsburg Fortress Publishers",
+                                "Crescent",
+                                "Storm King Press",
+                                "Tuttle Pub",
+                                "Peachpit Press",
+                                "Free Press",
+                                "Amistad",
+                                "M. Evans and Company",
+                                "Merriam-Webster",
+                                "Webster's New World",
+                                "Macmillan",
+                                "Mitchell Beazley",
+                                "Penguin (Non-Classics)",
+                                "Canongate Books",
+                                "Modern Library",
+                                "House of Stratus",
+                                "Arete U S A Pub Co",
+                                "Allyn & Bacon",
+                                "Women's Press",
+                                "Harry K. Wong Publications",
+                                "Penguin U S A",
+                                "Peachtree Publishers",
+                                "Tor Science Fiction",
+                                "HarperCollinsPublishers Australia",
+                                "Planeta",
+                                "Harcourt Paperbacks",
+                                "Rowohlt Tb.",
+                                "Btb Bei Goldmann",
+                                "Piper",
+                                "Wagenbach",
+                                "Beltz",
+                                "Bloomsbury",
+                                "Ullstein Tb",
+                                "Faber and Faber Ltd",
+                                "Le Cerf",
+                                "C.H.Beck",
+                                "Bantam Pr Ltd",
+                                "Arrow (A Division of Random House Group)",
+                                "Intl Pub Marketing",
+                                "Houghton Mifflin",
+                                "HarperTrophy",
+                                "Love Spell",
+                                "Goose Lane Editions",
+                                "Warner Books (Mm)",
+                                "Carlton Books Limited",
+                                "TFH Publications",
+                                "Pub Overstock Unlimited Inc",
+                                "Aventine Press",
+                                "Quartet Books",
+                                "Querido",
+                                "Schoffling",
+                                "Paulist Press",
+                                "Ex Machina Pub. Co.",
+                                "The MIT Press",
+                                "The KINLOCHALINE Group Ltd.",
+                                "DC Comics",
+                                "Image Comics",
+                                "Random House Children's Books (A Division of Random House Group)",
+                                "Writer's Digest Books",
+                                "Watson-Guptill Publications",
+                                "Poorhouse Press",
+                                "Titan Books (UK)",
+                                "AIT-Planet Lar",
+                                "About Comics",
+                                "Titan Books Ltd",
+                                "Twomorrows Publishing",
+                                "Big Engine",
+                                "Perseus Publishing",
+                                "Simon & Schuster Children's Publishing",
+                                "Harpercollins Pub Ltd",
+                                "Kensington Pub Corp (Mm)",
+                                "Intrigue Press",
+                                "Crown Publishing Group (NY)",
+                                "Warner Faith",
+                                "Harcourt Children's Books",
+                                "Contemporary French Fiction",
+                                "Macmillan Computer Pub",
+                                "Chrysalis Books",
+                                "List",
+                                "Random House Childrens Books",
+                                "Scribes Valley Publishing Co.",
+                                "Cemetery Dance Publications",
+                                "Faber and Faber",
+                                "Studio Vista",
+                                "Perennial Currents",
+                                "Little Brown UK Ltd",
+                                "Goodread Biography",
+                                "Yearling Books",
+                                "Random House Children's Books",
+                                "Pan Macmillan",
+                                "Silver Burdett Press",
+                                "Heartsong",
+                                "Wm. B. Eerdmans Publishing Company",
+                                "Scholastic Paperbacks (Mm)",
+                                "Coteau Books",
+                                "Troll Communications",
+                                "Moody Press",
+                                "Ladybird Books Ltd",
+                                "Lorimer",
+                                "Modern Publishing",
+                                "Pages Publishing Group",
+                                "Little Apple",
+                                "Golden Press",
+                                "Walker Co",
+                                "Golden Books",
+                                "Kensington Pub Corp",
+                                "Fitzhenry & Whiteside Limited",
+                                "Cartwheel Books (Scholastics)",
+                                "Screech Owls",
+                                "Scholastic Inc. School Market Edition",
+                                "Moody Pr",
+                                "Egmont Childrens Books",
+                                "Dial Books for Young Readers",
+                                "Annick Press",
+                                "Random House Books for Young Readers",
+                                "Grosset & Dunlap",
+                                "Tundra Books",
+                                "Ginn",
+                                "Orca Book Publishers",
+                                "Orchard Books",
+                                "Fitzhenry & Whiteside Ltd",
+                                "Western Publishing Company",
+                                "Scholastic Paperbacks",
+                                "Four Winds Press",
+                                "Groundwood Books"
+                                ] %}
+                                    {% for i in range(0, publisherList|length)%}
+                                        <option>
+                                            {{publisherList[i]}}
+                                        </option>
+                                    {% endfor %}
+                            </datalist>
+                            <datalist id="languages">
+                                {% set languageList = [
+                                "Icelandic",
+                                "Hiri Motu",
+                                "Gujarati",
+                                "Norwegian",
+                                "Malayalam",
+                                "Greek",
+                                "Gagauz",
+                                "Oriya",
+                                "Lao",
+                                "Persian",
+                                "Romanian",
+                                "Swedish",
+                                "Khmer",
+                                "Spanish",
+                                "Luxembourgish",
+                                "Arabic",
+                                "Belarusian",
+                                "Kannada",
+                                "Lithuanian",
+                                "Burmese",
+                                "Nepali",
+                                "French",
+                                "Northern Sotho",
+                                "Bengali",
+                                "Tok Pisin",
+                                "Latvian",
+                                "Hebrew",
+                                "Ndebele",
+                                "Thai",
+                                "Afrikaans",
+                                "Chinese",
+                                "Kyrgyz",
+                                "German",
+                                "Czech",
+                                "Zulu",
+                                "Maltese",
+                                "West Frisian",
+                                "Mongolian",
+                                "Amharic",
+                                "Somali",
+                                "Albanian",
+                                "Dari",
+                                "English",
+                                "Sotho",
+                                "Portuguese",
+                                "Kashmiri",
+                                "Dzongkha",
+                                "Polish",
+                                "Dhivehi",
+                                "Armenian",
+                                "Italian",
+                                "Assamese",
+                                "Macedonian",
+                                "Hindi",
+                                "Estonian",
+                                "Croatian",
+                                "Swahili",
+                                "Marathi",
+                                "Georgian",
+                                "Kazakh",
+                                "Moldovan",
+                                "Montenegrin",
+                                "Azeri",
+                                "Catalan",
+                                "Tsonga",
+                                "Punjabi",
+                                "Quechua",
+                                "Pashto",
+                                "Malay",
+                                "Dutch",
+                                "Guaraní",
+                                "Tamil",
+                                "Bosnian",
+                                "Bislama",
+                                "Danish",
+                                "Kurdish",
+                                "Japanese",
+                                "Hungarian",
+                                "New Zealand Sign Language",
+                                "Telugu",
+                                "Papiamento",
+                                "Irish Gaelic",
+                                "Indonesian",
+                                "Aymara",
+                                "Haitian Creole",
+                                "Yiddish",
+                                "Swati",
+                                "Tswana",
+                                "Bulgarian",
+                                "Korean",
+                                "Filipino",
+                                "Tajik",
+                                "Malagasy",
+                                "Māori",
+                                "Finnish"
+                                ] %}
+                                    {% for i in range(0, languageList|length)%}
+                                        <option>
+                                            {{languageList[i]}}
+                                        </option>
+                                    {% endfor %}
+                            </datalist>
+                            <datalist id="authors">
+                                {% set authorList = [
+                                "Ellis Weiner",
+                                "Louis Chunovic",
+                                "Rob Morrow",
+                                "Jon Scieszka",
+                                "Ansel E. Adams",
+                                "Jana Stone",
+                                "A. C. Bhaktivedanta Swami Prabhupada",
+                                "Joyce Wilson",
+                                "Bill D. Moyers",
+                                "Francis Murphy",
+                                "Coleman Barks",
+                                "James Hillman",
+                                "Lynn Andrews",
+                                "Shakti Gawain",
+                                "Paulo Coelho",
+                                "Douglas A. Skoog",
+                                "John McMurry",
+                                "P. W. Atkins",
+                                "A. A. Milne",
+                                "Shel Silverstein",
+                                "Susannah Leigh",
+                                "Tim Allen",
+                                "Staff of the Wall St Journal",
+                                "Paul Reiser",
+                                "Bruce Lansky",
+                                "Patricia Curtis",
+                                "Cynthia Copeland Lewis",
+                                "Cyndy Salzmann",
+                                "Ellen Raskin",
+                                "Anne Rice",
+                                "James Herriot",
+                                "SUE GRAFTON",
+                                "Marye Anne Fox",
+                                "D.F. Shriver",
+                                "Jacqueline Carey",
+                                "Christopher J. Cramer",
+                                "Jane Hamilton",
+                                "Quentin Bell",
+                                "Raymond D Keene",
+                                "Kon Grivainis",
+                                "R. N. Coles",
+                                "Carolyn Keene",
+                                "Susanna Moore",
+                                "Nick Hornby",
+                                "Stephen J. Dubner",
+                                "Sark",
+                                "Marianne Williamson",
+                                "Nikos Kazantzakis",
+                                "BRET EASTON ELLIS",
+                                "Charles Johnson",
+                                "John Grisham",
+                                "Mark Mathabane",
+                                "Alice Walker",
+                                "Danielle Steel",
+                                "Mary Bray Pipher",
+                                "Jay McInerney",
+                                "James L. Halperin",
+                                "Greg Egan",
+                                "Furio Colombo",
+                                "Marie Ferrarella",
+                                "George Ancona",
+                                "Susan Meier",
+                                "Anna Clarke",
+                                "Shirlee Busbee",
+                                "Agatha Christie",
+                                "Lindsay Armstrong",
+                                "Emma Darcy",
+                                "Mark Twain",
+                                "Helen Brooks",
+                                "Mary Jo Putney",
+                                "Johanna Lindsey",
+                                "Chris Sorensen",
+                                "Erika Pluhar",
+                                "Hermann Hesse",
+                                "Iker Jimenez",
+                                "Eduardo Mendoza",
+                                "DAN BROWN",
+                                "Peter Lerangis",
+                                "Edgar Allan Poe",
+                                "Didier Van Cauwelaert",
+                                "Katherine Neville",
+                                "Frederic Beigbeder",
+                                "Roy Willis",
+                                "Alejandro Gandara",
+                                "Mary Higgins Clark",
+                                "Arturo Perez Reverte",
+                                "Isabel Miller",
+                                "Nicholas Sparks",
+                                "Nora Roberts",
+                                "LaVyrle Spencer",
+                                "Judith Kelman",
+                                "Terri Windling",
+                                "John Jakes",
+                                "Jude Deveraux",
+                                "Alice Leccese Powers",
+                                "Tanith Lee",
+                                "Olive Ann Burns",
+                                "Jack McDevitt",
+                                "Terry C. Johnston",
+                                "Tess Gerritsen",
+                                "Frederick Forsyth",
+                                "James Lee Burke",
+                                "Mark Frost",
+                                "Kathleen E. Woodiwiss",
+                                "Piers Anthony",
+                                "Ruth Prawer Jhabvala",
+                                "Chris Maynard",
+                                "Ted Anton",
+                                "Peter Nelson",
+                                "Per Olov Enquist",
+                                "Emma Bull",
+                                "Maj Sjowall",
+                                "Larry Millett",
+                                "Terry Pratchett",
+                                "Sylvia Nasar",
+                                "Walter Mosley",
+                                "Kenneth M. Pollack",
+                                "Azar Nafisi",
+                                "Tony Horwitz",
+                                "Leif Enger",
+                                "Betty J. Eadie",
+                                "TAMI HOAG",
+                                "Terry Brooks",
+                                "Diana Palmer",
+                                "H. G. Wells",
+                                "Jules Verne",
+                                "Elizabeth Moran",
+                                "Lynn Beach",
+                                "Adele Faber",
+                                "Patricia Burstein",
+                                "David Stick",
+                                "Daley",
+                                "Alan Dean Foster",
+                                "Donald F Glut",
+                                "Peter Jenkins",
+                                "Earthworks Group",
+                                "Cindy Ross",
+                                "Gretchen McHugh",
+                                "Sharon A. Feaster",
+                                "Lilian Jackson Braun",
+                                "R.L. Stine",
+                                "Anne E. Edwards",
+                                "A.C. Crispin",
+                                "Marilyn Kaye",
+                                "Carolyn G. Hart",
+                                "Robert James Waller",
+                                "Khristine Page",
+                                "Stephanie Laurens",
+                                "Elaine Coffman",
+                                "JANE FEATHER",
+                                "Gaelen Foley",
+                                "Claire Delacroix",
+                                "Janet Dailey",
+                                "Rachel Gibson",
+                                "Elizabeth Bevarly",
+                                "Rosemary Rogers",
+                                "Maureen Child",
+                                "Lisa Jackson",
+                                "Cassie Edwards",
+                                "Leigh Greenwood",
+                                "Marsha Canham",
+                                "Victoria Alexander",
+                                "Diana Hamilton",
+                                "Connie Mason",
+                                "Nan Ryan",
+                                "Rebecca Brandewyne",
+                                "Susan Elizabeth Phillips",
+                                "Brenda Joyce",
+                                "Pamela Britton",
+                                "Sandra Hill",
+                                "Judith Ivory",
+                                "CANDICE PROCTOR",
+                                "Madeline Hunter",
+                                "Linda Francis Lee",
+                                "Madeline Baker",
+                                "Josie Litton",
+                                "Sue Civil-Brown",
+                                "Heather Graham",
+                                "Patricia Rice",
+                                "Melanie George",
+                                "Barbara Dawson Smith",
+                                "Connie Lane",
+                                "Lisa Kleypas",
+                                "Peter Matthiessen",
+                                "Emeril Lagasse",
+                                "W. Stone",
+                                "THOMAS A. STEWART",
+                                "Pablo Neruda",
+                                "Marie Simmons",
+                                "Julie Smith",
+                                "Ellis Peters",
+                                "Georgette Heyer",
+                                "John Bayley",
+                                "Marco Palmieri",
+                                "Laura Wolf",
+                                "FANNIE FLAGG",
+                                "John Steinbeck",
+                                "Fred Willard",
+                                "Concha Lopez Narvaez",
+                                "Robertson Davies",
+                                "Martin Suter",
+                                "Catherine Ryan Hyde",
+                                "Donna Tartt",
+                                "Kevin J. Anderson",
+                                "Alice Hoffman",
+                                "Dorothy Allison",
+                                "J.R.R. Tolkien",
+                                "Bruce Sterling",
+                                "Wen Spencer",
+                                "Scott Adams",
+                                "John S. Schuchman",
+                                "MORGAN LLYWELYN",
+                                "Elizabeth Moon",
+                                "William Gibson",
+                                "Holcomb",
+                                "Lou Ann Walker",
+                                "Starhawk",
+                                "Michael Moore",
+                                "Michael Moorcock",
+                                "Anne McCaffrey",
+                                "Matthew S. Moore",
+                                "Lillian M. Hines",
+                                "Lois H. Gresh",
+                                "J. K. Rowling",
+                                "Ernst Friedrich",
+                                "Neal Stephenson",
+                                "Bruce K. Grant",
+                                "W. Y. Evans-Wentz",
+                                "Fiona Horne",
+                                "Tanya Huff",
+                                "Douglas Monroe",
+                                "Draja Mickaharic",
+                                "Teresa Edgerton",
+                                "Gustave Flaubert",
+                                "Philip Gourevitch",
+                                "Nancy Huston",
+                                "P.D. James",
+                                "Myla Goldberg",
+                                "Mary Karr",
+                                "RAYMOND CHANDLER",
+                                "Steve Alten",
+                                "Robert Asprin",
+                                "Dave Barry",
+                                "Smithmark Publishing",
+                                "Nalo Hopkinson",
+                                "Cynthia Voigt",
+                                "Barbara Gowdy",
+                                "Catherine Gildiner",
+                                "Emma McLaughlin",
+                                "Oscar Wilde",
+                                "Dean R. Koontz",
+                                "William Wilkie Collins",
+                                "Sharlee Dieguez",
+                                "Stella Gibbons",
+                                "Maurice A. Williams",
+                                "Fred Uhlman",
+                                "Esther Rochon",
+                                "Matthew Pearl",
+                                "Arno Gruen",
+                                "Noah benShea",
+                                "TOM ROBBINS",
+                                "Elliot Snow",
+                                "Judith Michael",
+                                "Frank McCourt",
+                                "Patricia Sprinkle",
+                                "James Patterson",
+                                "Toni Morrison",
+                                "Anthony Bourdain",
+                                "Lyn Hamilton",
+                                "Frederick S. Perls",
+                                "Elula Perrin",
+                                "R.A. Salvatore",
+                                "Jessica Amanda Salmonson",
+                                "Jessica Salmonson",
+                                "Diane Carey",
+                                "Geraldine Thorsten",
+                                "Jurt W. Donsbach",
+                                "Robin Cook",
+                                "Rita Mae Brown",
+                                "F Springer",
+                                "Hortense Calisher",
+                                "David Fraser",
+                                "Andrea Simmen",
+                                "James Hamilton-Paterson",
+                                "James Walsh",
+                                "Samuel Hofer",
+                                "Jon Land",
+                                "Andrea BlanquÃ©",
+                                "Geoffrey C. Bowker",
+                                "Scott Turow",
+                                "Ross A. MacInnes",
+                                "Bill Fitzhugh",
+                                "Joan D. Vinge",
+                                "Kurt Busiek",
+                                "Rosemary Sutcliff",
+                                "Damon Knight",
+                                "Dennis O'Neil",
+                                "Will Eisner",
+                                "Mark Salisbury",
+                                "Larry Young",
+                                "Ansen Dibell",
+                                "Neil Gaiman",
+                                "Durwin Talon",
+                                "Roald Dahl",
+                                "Andrew Lang",
+                                "David Langford",
+                                "J. Frazer",
+                                "LEE CHILD",
+                                "Allen Carr",
+                                "Jeanette Parsons Egan",
+                                "Lois Duncan",
+                                "Harry Bingham",
+                                "Madge Swindells",
+                                "Jonathan Gash",
+                                "Mary Margaret Kaye",
+                                "Catherine Whitney",
+                                "Ken Goddard",
+                                "Josh Webster",
+                                "Jeffrey Archer",
+                                "John Godey",
+                                "Barbara Taylor Bradford",
+                                "Sally Quinn",
+                                "PHYLLIS A. WHITNEY",
+                                "Sophie Dunbar",
+                                "Ben Bova",
+                                "Veronica Black",
+                                "Peter Elkind",
+                                "Carol Brennan",
+                                "John C. Maxwell",
+                                "Audrey Wood",
+                                "Liz Williams",
+                                "Robert J. Sawyer",
+                                "Michael Flynn",
+                                "Lisanne Norman",
+                                "Pat Murphy",
+                                "Thomas De Quincey",
+                                "Annie Ernaux",
+                                "Julian Barnes",
+                                "John December",
+                                "Mildred D. Taylor",
+                                "Helen Keller",
+                                "L. A. Graf",
+                                "John Peel",
+                                "Eric L. Harry",
+                                "Eoin Colfer",
+                                "Charles Ryan",
+                                "Stephen Coonts",
+                                "Elizabeth Peters",
+                                "PHILLIP M. MARGOLIN",
+                                "Stan Berenstain",
+                                "Robert Cormier",
+                                "Elizabeth Appell",
+                                "T. Jefferson Parker",
+                                "Margaret Chittenden",
+                                "Kris Nelscott",
+                                "Cait London",
+                                "Dave Klein",
+                                "Jay R. Bonansinga",
+                                "Anne Capeci",
+                                "Phyllis Curott",
+                                "Jonathan Carroll",
+                                "Tom Stoppard",
+                                "Nancy O'Hara",
+                                "Brian Davis",
+                                "Madge Swindell",
+                                "Paulette Bates Alden",
+                                "Bernard Malamud",
+                                "Polybius",
+                                "David Feldman",
+                                "Charles Higson",
+                                "Carol Thurston",
+                                "Maria Campbell",
+                                "Eleanor Coerr",
+                                "Laurence Yep",
+                                "Gregory Stock",
+                                "Homer",
+                                "Elizabeth George Speare",
+                                "Ilene Cooper",
+                                "Seymour Simon",
+                                "Jean Craighead George",
+                                "Sarah Champion",
+                                "Jean Ritchie",
+                                "Claire Sterling",
+                                "Lauren McCrossan",
+                                "Christine Butterworth",
+                                "Lynne Cheney",
+                                "Michael Dibdin",
+                                "Robert Stone",
+                                "Norman Rush",
+                                "Gene Wolfe",
+                                "Laurence",
+                                "Quentin Tarantino",
+                                "Mildred Colvin",
+                                "Etty Hillesum",
+                                "Lisa Eisenberg",
+                                "Alison Acheson",
+                                "David Cutts",
+                                "Nancy Pickard",
+                                "Johnny Gruelle",
+                                "Clyde R. Bulla",
+                                "Dorothy McKay Martin",
+                                "Frances Hodgson Burnett",
+                                "Martin Godfrey",
+                                "Debbie Dadey",
+                                "Tony Hutchings",
+                                "Katy Hall",
+                                "Janet Adele Bloss",
+                                "Patricia Hermes",
+                                "Lewis Carroll",
+                                "Sherry Bunin",
+                                "Marci McGill",
+                                "Mark Oman",
+                                "Marilyn Sachs",
+                                "Susan Terris",
+                                "John Ball",
+                                "Sean O Huigin",
+                                "Ruth Chew",
+                                "Eric Wright",
+                                "Nancy Atherton",
+                                "John Creasey",
+                                "Stuart M. Kaminsky",
+                                "MARGERY WILLIAMS",
+                                "Ed McBain",
+                                "Gordon D. Shirreffs",
+                                "Marion Holland",
+                                "Toni L.P. Kelner",
+                                "Marilyn Halvorson",
+                                "Betty Ren Wright",
+                                "Mike Thaler",
+                                "ROY MACGREGOR",
+                                "Vicki Erwin",
+                                "Jenny Markas",
+                                "Maria D. Wilkes",
+                                "R. L. Stine",
+                                "Paul Hutchins",
+                                "Johanna Hurwitz",
+                                "Pauline Watson",
+                                "Miriam Hodgson",
+                                "Dian Dincin Buchman",
+                                "Frances Rickett",
+                                "Robert Bright",
+                                "SCOTT YOUNG",
+                                "Elizabeth Forsythe Hailey",
+                                "Barbara Hazen",
+                                "Trinka Hakes Noble",
+                                "Kathy Stinson",
+                                "JUDY DUNN",
+                                "Wendy Cheyette Lewison",
+                                "GILLES TIBO",
+                                "Jerry Lane",
+                                "Arthur G. Slade",
+                                "Ann Bryant",
+                                "Veronica Eddy Brock",
+                                "Liza Alexander",
+                                "Lillian Hoban",
+                                "Melissa Lowell",
+                                "Jovial Bob Stine",
+                                "Donald Honig",
+                                "Gillian Roberts",
+                                "John Sandford",
+                                "L. Frank Baum",
+                                "Laura Dower",
+                                "D.J. Arneson",
+                                "Sharon Gordon",
+                                "Rose Greydanus",
+                                "Brian Doyle",
+                                "Laura Lee Hope"
+                                ] %}
+                                    {% for i in range(0, authorList|length)%}
+                                        <option>
+                                            {{authorList[i]}}
+                                        </option>
+                                    {% endfor %}
+                            </datalist>
+                            <div style="margin-top: 40px;">
+                                <p class="text-field-title">Genre</p>
+                                <input autoComplete="on" list="genres" type="text" name="genre" id="genreField" class="text-field left-margin">
+                            </div>
+                            <div style="margin-top: 40px;">
+                                <p class="text-field-title">Author</p>
+                                <input autoComplete="on" list="authors" type="text" name="author" id="authorField" class="text-field left-margin">
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="margin-left: 40px;">
+                            <div>
+                                <p class="text-field-title">Publisher</p>
+                                <input autoComplete="on" list="publishers" type="text" name="publisher" id="publisherField" class="text-field left-margin">
+                            </div>
+                            <div style="margin-top: 40px;">
+                                <p class="text-field-title">Language</p>
+                                <input autoComplete="on" list="languages" type="text" name="language" id="languageField" class="text-field left-margin">
+                            </div>
+                            <div style="margin-top: 40px;">
+                                <p class="text-field-title">Price</p>
+                                <input type="number" name="price" id="priceField" class="text-field left-margin">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div style="margin-top: 40px;">
+                        <p class="text-field-title">Author Name</p>
+                        <input type="text" name="author" id="authorField" class="text-field left-margin">
+                    </div> -->
+
+                    <div style="margin-top: 60px;">
+                        <p class="text-field-title" style="display: inline; margin-right: 30px;">Rating</p>
+                        <p id="rangeText" style="font-size: 16px; font-weight: 500; color: white; display: inline;"></p>
+                        <div class="slidecontainer" style="margin-top: 20px;">
+                            <input name="rating" type="range" min="1" max="100" value="0.1" class="slider" id="myRange">
+                        </div>
+                        <!-- <input type="number" name="rating" id="ratingField" class="text-field left-margin"> -->
+                    </div>
+                    <button type="button" onclick="predict()" class="generate-btn left-margin" style="margin-top: 80px;"
+                        id="generateBtn">Predict</button>
+
+                </form>
+            </div>
+            <div id="predictionDiv" class="col-md-7 d-flex justify-content-center text-center"
+                style="margin-top: 20px;">
+                <div>
+                    <p class="scores score_div"
+                        style="font-size: 40px; font-weight: 700; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; background-image: linear-gradient(to right, rgb(3, 190, 3) ,rgb(43, 252, 43));">
+                        Predicted Sales</p>
+                    <br>
+                    <br>
+                </div>
+                <div style="margin-top: 40px;">
+                    <!-- <p style="font-size: 24px; font-weight: 600; color: white; display: inline; margin-left: 4rem;">
+                        ~
+                    </p> -->
+                    <p id="sales" style="font-size: 60px; font-weight: 600; color: gold; display: inline;"> -- </p>
+                    <p style="font-size: 35px; font-weight: 600; color: white;">Yearly Sales</p>
+                    <!-- <br>
+                    <br>
+                    <p id="percent" style="font-size: 30px; color: rgb(0, 255, 0); display: inline;">83.7% </p>
+                    <p id="percentTxt"
+                        style="font-size: 22px; font-weight: 600; color: white; color: rgb(0, 255, 0); display: inline;">
+                        more than average sales in Comedy genre</p> -->
+                </div>
+                <div id="loader" class="loader" style="display: none; margin-top: 170px;"></div>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            menuBtnChange();//calling the function(optional)
+        });
+
+
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+            } else {
+                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+            }
+        }
+
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("rangeText");
+        output.innerHTML = slider.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function () {
+            output.innerHTML = (this.value / 10).toFixed(1);
+        }
+
+        function predict() {
+
+            let name = document.f1.name.value;
+            let genre = document.f1.genre.value;
+            let publisher = document.f1.publisher.value;
+            let author = document.f1.author.value;
+            let language = document.f1.language.value;
+            let price = document.f1.price.value;
+            let rating = slider.value;
+
+            if (name === "" || genre === "" || publisher === "" || author === "" || language === "") {
+                return;
+            }
+
+            console.log(document.f1.rating.value)
+
+            var x = document.getElementById('predictionDiv').style.display = 'none';
+
+
+
+            // var x = document.getElementsByClassName('score_div');
+            // var i;
+            // for (i = 0; i < x.length; i++) {
+            //     x[i].style.display = 'none';
+            // }
+
+            document.getElementById("loader").style.display = "inline-block";
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    document.getElementById("loader").style.display = "none";
+                    var res = JSON.parse(this.response);
+                    console.log(res);
+                    // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+                    // var avg = res[1].toFixed(2)
+                    var x = document.getElementById('predictionDiv').style.display = 'inline';
+                    var x = document.getElementById('sales').innerHTML = '&dollar;' + res[0].toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                }
+            };
+            xhttp.open("POST", "salesPrediction", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            let body = `name=${name}&genre=${genre}&rating=${rating}&price=${price}&author=${author}&publisher=${publisher}&language=${language}`
+            xhttp.send(body);
+        }
+    </script>
+</body>
+
+</html>
