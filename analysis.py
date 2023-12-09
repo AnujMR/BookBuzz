@@ -7,9 +7,44 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sn                   # For plotting graphs
 import warnings                        # To ignore any warnings
+from flask import jsonify
+from bson.objectid import ObjectId
 warnings.filterwarnings("ignore")
 matplotlib.use('agg')
 import json
+
+def getUser(app, id):   # Load user from OUR database
+    from flask_pymongo import PyMongo
+    app.config["MONGO_URI"] = "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+    db = PyMongo(app).db
+    user = db.users.find_one({"_id" : ObjectId(id)})
+    return user
+
+
+def loadDataset(app, type):     #Load data from USER's database
+    if type == "CSV":
+        # Load csv file
+        print()
+
+    elif type == "MONGO":
+        # Load mongoDB
+        import pandas as pd
+        from flask_pymongo import PyMongo
+
+        print("In mongo!")
+
+        try:
+            app.config["MONGO_URI"] = "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+            db = PyMongo(app).db
+            print("Database Connected!")
+            # doc = db.books.find().limit(5)
+            # for x in doc:
+            #     print(x["Book-Title"])
+        except:
+            print("An exception occured")
+
+    else :
+        print("Type currently unavailable")
 
 def saveChart():
     import pandas as pd

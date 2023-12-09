@@ -6,24 +6,24 @@
     <title>Sign in</title>
 
     <script>
-        var res;
-        function getAdmin() {
-            console.log("getAdmin called")
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    res = JSON.parse(this.response)
-                    console.log("Admin details :");
-                    console.log(res)
-                }
-            };
-            xhttp.open("POST", "/getAdminDetails", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send({});
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            getAdmin()
-        }, false);
+        // var res;
+        // function getAdmin() {
+        //     console.log("getAdmin called")
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = function () {
+        //         if (this.readyState == 4 && this.status == 200) {
+        //             res = JSON.parse(this.response)
+        //             console.log("Admin details :");
+        //             console.log(res)
+        //         }
+        //     };
+        //     xhttp.open("POST", "/getAdminDetails", true);
+        //     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     xhttp.send({});
+        // }
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     getAdmin()
+        // }, false);
 
         //         function login() {
         //             var name = document.getElementById('username').value;
@@ -58,7 +58,7 @@
     <div class="login-body">
         <div class="main" id="main">
             <p class="sign" style="text-align:center">Log in</p>
-            <form action="/" method="post" class="form1">
+            <form action="/" method="post" class="form1" name="f1">
                 <input id="username" class="un " required name="username" type="text" style="text-align:center"
                     placeholder="Username">
                 <input id="password" class="pass" required name="password" type="password" style="text-align:center"
@@ -66,14 +66,54 @@
                 <p id="invalid" style="color: red; font-size: 14px; display: none; margin-bottom: 20px;">Invalid
                     Credentials!</p>
                 <br>
-                <button type="submit" class="submit" style="text-align:center">Log in</button>
+                <button type="button" onclick="login()" class="submit" style="text-align:center">Log in</button>
                 <!-- <button type="button" onclick="login()" class="submit" style="text-align:center">Log in</button> -->
                 <!-- <a class="submit" style="text-align:center">Log in</a> -->
                 <!-- <p class="forgot" style="text-align:center"><a href="#">Forgot Password?</p> -->
         </div>
     </div>
 
+    <script>
+        function login() {
 
+                let username = document.f1.username.value;
+                let password = document.f1.password.value;
+
+                // document.getElementById("loader").style.display = "inline-block";
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+
+                        // document.getElementById("loader").style.display = "none";
+
+                        var res = JSON.parse(this.response);
+                        console.log(res)
+                        
+                        if(res['status']){
+                            document.getElementById("invalid").style.display = "none";
+                            document.getElementById("main").style.height = "300px";
+                            
+                            window.location.assign("/dashboard")
+
+                            // document.write(res["page"]);
+                        }else{
+                            document.getElementById("invalid").style.display = "block";
+                            document.getElementById("main").style.height = "350px";
+                        }
+
+                        // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+
+                        console.log(this.responseText)
+
+                    }
+                };
+                xhttp.open("POST", "/", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                let body = `username=${username}&password=${password}`
+                xhttp.send(body);
+            }
+    </script>
 </body>
 
 </html>

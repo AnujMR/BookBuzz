@@ -4,40 +4,45 @@ import openai
 openai.organization = "org-pTFO2JxZoSba7tx1UEqvixSo"
 openai.api_key = "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"
 openai.Model.list()
-from analysis import saveChart
+from analysis import saveChart, loadDataset
 from qualityChecker import checkQuality
-from firebase_config import getAdmin
+from firebase_config import getUserById, getUserByPass
 from salesPrediction import predictSales
 import json
 
 app = Flask(__name__)
-admin = {'username':'', 'password':''}
+admin = None
 
 @app.route('/', methods=['GET', 'POST'])
 def loginPage():
     if request.method == 'POST':
+        global admin 
+        admin = getUserByPass(request.form['username'], request.form['password'])
         print(admin)
-        print(request.form)
-        if request.form['username'] == admin['username'] and request.form['password'] == admin['password']:
-            return render_template('dashboard.ejs')
-            # return render_template('parallax.html')
+        # print(request.form)
+        if admin != None:
+            return json.dumps({"status" : True})
         else:
-            # return render_template('dashboard.ejs')
-            return render_template('loginPage.html')
+            print("Invalid Credentials!")
+            return json.dumps({"status" : False})
     else:
         return render_template('loginPage.html')
 
-@app.route('/getAdminDetails', methods=['GET', 'POST'])
-def getAdminDetails():
-    if request.method == 'POST':
-        global admin 
-        admin = getAdmin('admin', 'auth')
-        print(admin)
-        return json.dumps(admin)
+# @app.route('/getAdminDetails', methods=['GET', 'POST'])
+# def getAdminDetails():
+#     if request.method == 'POST':
+#         global admin 
+#         admin = getUserByPass('anuj', 'anuj123')
+#         print(admin)
+#         return json.dumps(admin)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboardPage():
-    return render_template('dashboard.ejs')
+    return render_template('dashboard.ejs', user = admin)
+
+@app.route('/bookInventory', methods=['GET', 'POST'])
+def bookInventoryPage():
+    return render_template('bookInventoryPage.html')
 
 @app.route('/salesPrediction', methods=['GET', 'POST'])
 def salesPrediction():
@@ -86,6 +91,7 @@ def generatePost(promt):
 
 @app.route('/getAnalysis', methods=['GET', 'POST'])
 def getAnalysis():
+    loadDataset(app, "MONGO")
     res = saveChart()
     return res
 
