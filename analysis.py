@@ -43,7 +43,7 @@ def loadDataset(app, user, type, path):     #Load data from USER's database
 
         print("In mongo!")
         try:
-            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz?ssl=true&ssl_cert_reqs=CERT_NONE"
+            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
             db = PyMongo(app).db
             print("Database Connected!")
             docs = db.books.find()
@@ -60,6 +60,46 @@ def loadDataset(app, user, type, path):     #Load data from USER's database
     else :
         print("Type currently unavailable")
         return {"status" : False}
+
+def getPredictionData(app, user, type, path):
+    if type == "CSV": # Load csv file
+        try:
+            import pandas as pd
+            df =  pd.read_csv(path, encoding_errors= 'replace')
+
+            # Create sets with unique values
+            authorsSet = set(df["Book-Author"])
+            genreSet = set(df["Genre"])
+            langaugeSet = set(df["Language"])
+            publisherSet = set(df["Publisher"])
+
+            authorsList = list(authorsSet)
+            genreList = list(genreSet)
+            langaugeList = list(langaugeSet)
+            publisherList = list(publisherSet)
+            return {"authors" : authorsList, "genres" : genreList, "languages" : langaugeList, "publishers" : publisherList}
+        
+        except Exception as e:
+            print("Exception occured while fetching predictionData : ", e)
+            return {"status" : False}
+
+    elif type == "MONGO": # Load mongoDB
+        import pandas as pd
+        from flask_pymongo import PyMongo
+        try:
+            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+            db = PyMongo(app).db
+            print("Database Connected!")
+            docs = db.books.find()
+            mainDataframe = pd.DataFrame(list(docs))
+            res = updateUser(user["id"], {"databaseType" : "MONGO", "path" : path})
+            return res
+            # for x in doc:
+            #     print(x["Book-Title"])
+            # return True
+        except Exception as e:
+            print("Exception occured while loading data : ", e)
+            return {"status" : False}
 
 def saveChart():
     import pandas as pd

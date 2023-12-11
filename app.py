@@ -7,7 +7,7 @@ openai.api_key = "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"
 openai.Model.list()
 from analysis import saveChart, loadDataset
 from qualityChecker import checkQuality
-from firebase_config import getUserById, getUserByPass
+from firebase_config import getUserById, getUserByPass, registerUser
 from salesPrediction import predictSales
 import json
 
@@ -90,6 +90,27 @@ def loginPage():
 def logout():
     clearSessionData()
     return {"status" : True}
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    global admin 
+    if request.method == 'POST':
+        body = {
+            "username" : request.form['username'],
+            "password" : request.form['password'],
+            "email" : request.form['email'],
+            "databaseType" : None,
+            "path" : None,
+        }
+        res = registerUser(body)
+        if(res["status"]):    
+            admin = res["user"]
+            setSessionData(admin) 
+            print(admin)
+            return {"status" : True}
+        else: 
+            return {"status" : False}
 
 # @app.route('/getAdminDetails', methods=['GET', 'POST'])
 # def getAdminDetails():

@@ -58,3 +58,17 @@ def getUserById(uid):
     else:
         print('No such document!')
 
+def registerUser(body):
+    try:
+        db = firestore.client()
+        doc_ref = db.collection("users").document()
+        doc_ref.set(body)
+        userDoc = doc_ref.to_dict()
+        userDoc.update({"id" : doc_ref.id})
+        print('New user data:', userDoc)
+        return {"status" : True, "user" : userDoc}
+    except Exception as e:
+        print("Exception occured while registering user : ", e)
+        return {"status" : False}
+
+
