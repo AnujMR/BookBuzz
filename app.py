@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, request, session
+from flask_session import Session
 import os
 import openai
 openai.organization = "org-pTFO2JxZoSba7tx1UEqvixSo"
@@ -11,13 +12,62 @@ from salesPrediction import predictSales
 import json
 
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
 admin = None
+Session(app)
+
+def clearSessionData():
+    try:
+        session["id"] = None
+        session["username"] = None
+        session["password"] = None
+        session["email"] = None
+        session["databaseType"] = None
+        session["path"] = None
+
+    except Exception as e:
+        print("Exception occured while clearing session data: ", e)
+
+def setSessionData(user):
+    try:
+        session["id"] = user["id"]
+        session["username"] = user["username"]
+        session["password"] = user["password"]
+        session["email"] = user["email"]
+
+        if user["databaseType"]:
+            session["databaseType"] = user["databaseType"]
+
+        if user["path"]:
+            session["path"] = user["path"]
+
+    except Exception as e:
+        print("Exception occured while setting session data: ", e)
+
+def getSessionData():
+    try:
+        global admin
+        admin = {
+                "id" : session.get("id"),
+                "username" : session.get("username"),
+                "password" : session.get("password"),
+                "email" : session.get("email"),
+                "databaseType" : session.get("databaseType"),
+                "path" : session.get("path")
+            }
+        return True
+    except Exception as e:
+        print("Exception occured while getting session data : ", e)
+        return False
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def loginPage():
+    global admin 
     if request.method == 'POST':
-        global admin 
         admin = getUserByPass(request.form['username'], request.form['password'])
+        setSessionData(admin)
         print(admin)
         # print(request.form)
         if admin != None:
@@ -26,7 +76,20 @@ def loginPage():
             print("Invalid Credentials!")
             return json.dumps({"status" : False})
     else:
-        return render_template('loginPage.html')
+        if session.get("username") == None:
+            return render_template('loginPage.html')
+        else:
+            res = getSessionData()
+            if res:
+                return render_template('dashboard.ejs', user = admin)
+            else:
+                return render_template('loginPage.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    clearSessionData()
+    return {"status" : True}
 
 # @app.route('/getAdminDetails', methods=['GET', 'POST'])
 # def getAdminDetails():
@@ -38,7 +101,17 @@ def loginPage():
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboardPage():
-    return render_template('dashboard.ejs', user = admin)
+    global admin
+    if session.get("username"):
+        res = getSessionData()
+        if res:
+            print("In Dashboard, User : ", admin)
+            return render_template('dashboard.ejs', user = admin)
+        else:
+            print("Exception occured while going to Dashboard")
+    else:
+        return redirect("/")
+    
 
 @app.route('/bookInventory', methods=['GET', 'POST'])
 def bookInventoryPage():
@@ -89,9 +162,23 @@ def generatePost(promt):
     # print(response["choices"][0]["text"])
     return response["choices"][0]["text"]
 
+
+@app.route('/connectToDatabase',  methods=['GET', 'POST'])
+def connectToDatabase():
+    global admin
+    if request.method == 'POST':
+        res = loadDataset(app, admin, request.form["type"], request.form["path"])
+        if res["status"]:
+            setSessionData(res["user"])
+            getSessionData()
+            # admin = res["user"]
+    
+    return redirect("/dashboard")
+    # return render_template('dashboard.ejs', user = admin) 
+
 @app.route('/getAnalysis', methods=['GET', 'POST'])
 def getAnalysis():
-    loadDataset(app, "MONGO")
+    # loadDataset(app, "MONGO", "")
     res = saveChart()
     return res
 

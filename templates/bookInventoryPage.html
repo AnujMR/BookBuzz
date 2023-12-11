@@ -95,12 +95,39 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
-
+        let logoutBtn = document.querySelector("#log_out");
 
         closeBtn.addEventListener("click", () => {
             sidebar.classList.toggle("open");
             menuBtnChange();//calling the function(optional)
         });
+
+        logoutBtn.addEventListener("click", () => {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+
+                        // document.getElementById("loader").style.display = "none";
+
+                        var res = JSON.parse(this.response);
+                        console.log(res)
+
+                        if (res['status']) {
+                            window.location.assign("/")
+                        } else {
+                        }
+
+                        // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+
+                        console.log(this.responseText)
+
+                    }
+                };
+                xhttp.open("POST", "logout", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                let body = ``;
+                xhttp.send(body);
+            })
 
         searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
             sidebar.classList.toggle("open");
