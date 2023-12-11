@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <title> BookBuzz </title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bookshelfstyle.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap -->
+ 
+        <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -23,6 +24,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+    <!------- swipper cdn link ------------>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
 </head>
 
 <body>
@@ -69,9 +72,9 @@
             <li>
                 <a href="/bookInventory">
                     <i class="fa-solid fa-book"></i>
-                    <span class="links_name">Inventory</span>
+                    <span class="links_name">Bookshelf</span>
                 </a>
-                <span class="tooltip">Inventory</span>
+                <span class="tooltip">Bookshelf</span>
             </li>
 
             <li class="profile">
@@ -85,13 +88,353 @@
             </li>
         </ul>
     </div>
-    <section class="home-section">
-        <div class="text">Books Inventory</div>
-        <br>
-
-        <!-- Add your Inventory ka code here -->
+    <section class="main-section">
+        <section class="bookshelf-home">
+            <div class="row">
+    
+                <div class="content">
+                    <h3>WELCOME TO BOOKSHELF</h3>
+                    <p>A book is a journey that unfolds with every turned page, revealing landscapes of emotion and realms of understanding.</p>
+                </div>
+    
+                <div class="swiper books-list" >
+    
+                    <div class="swiper-wrapper" style="background-color: transparent">
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-1.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-2.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-3.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-4.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-5.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-6.png" alt=""></a>
+                    </div>
+                    <img src="./static/stand.png" class="stand" alt="">
+                </div>
+            </div>
+        </section>
         
+        <section class="featured" id="featured" style="background-color: #111111; margin: 0; padding: 50px 78px 0 0;">
+            <h1 class="heading" ><span style="background-color: #111111; color: white;">Featured books</span></h1>
+    
+            <div class="swiper featured-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide box">
+                        <!-- <div class="icons">
+                            <a href="" class="fas fa-search"></a>
+                            <a href="" class="fas fa-heart"></a>
+                            <a href="" class="fas fa-eye"></a>
+                        </div> -->
+    
+                        <div class="image">
+                            <img src="./static/book-1.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-2.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                    
+                        <div class="image">
+                            <img src="./static/book-3.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-4.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-5.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-6.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-7.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-8.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box" style="background-color: transparent">
+    
+                        <div class="image">
+                            <img src="./static/book-9.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-10.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-1.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <section class="featured" id="featured" style="background-color: #111111; margin: 0; padding: 50px 78px 0 0;">
+            <h1 class="heading" ><span style="background-color: #111111; color: white;">Featured books</span></h1>
+    
+            <div class="swiper featured-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide box">
+                        <!-- <div class="icons">
+                            <a href="" class="fas fa-search"></a>
+                            <a href="" class="fas fa-heart"></a>
+                            <a href="" class="fas fa-eye"></a>
+                        </div> -->
+    
+                        <div class="image">
+                            <img src="./static/book-1.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-2.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                    
+                        <div class="image">
+                            <img src="./static/book-3.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-4.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-5.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-6.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-7.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-8.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box" style="background-color: transparent">
+    
+                        <div class="image">
+                            <img src="./static/book-9.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+    
+                        <div class="image">
+                            <img src="./static/book-10.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+    
+                    <div class="swiper-slide box">
+                        <div class="image">
+                            <img src="./static/book-1.png" alt="">
+                        </div>
+    
+                        <div class="content">
+                            <h3>featured book</h3>
+                            <div class="price">$15.99 <span>$20.99</span></div>
+                            
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+
+
+
+
+
     </section>
+    
+    
+   
+
+
+     <!---- swiper cdn link ---------->
+     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
@@ -102,10 +445,10 @@
             menuBtnChange();//calling the function(optional)
         });
 
-        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-            sidebar.classList.toggle("open");
-            menuBtnChange(); //calling the function(optional)
-        });
+        // searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+        //     sidebar.classList.toggle("open");
+        //     menuBtnChange(); //calling the function(optional)
+        // });
 
         // following are the code to change sidebar button(optional)
         function menuBtnChange() {
@@ -115,7 +458,63 @@
                 closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
             }
         }
+/*-------- swiper ---------- */
+
+var swiper = new Swiper(".books-list", {
+   
+   loop:true,
+   centeredSlides:true,
+   autoplay:{
+       delay:9500,
+       disableOnInteraction:false,
+   },
+   breakpoints: {
+    0: {
+       slidesPerView: 1,   
+     },
+     768: {
+       slidesPerView: 2, 
+     },
+     1024: {
+       slidesPerView: 3, 
+     },
+   },
+ });
+
+ /*-------- featured section start ---------- */
+
+var swiper = new Swiper(".featured-slider", {
+   
+   spaceBetween:10,
+   loop:true,
+   centeredSlides:true,
+   autoplay:{
+       delay:9500,
+       disableOnInteraction:false,
+   },
+   navigation:{
+       nextEl:".swiper-button-next",
+       prevEl:".swiper-button-prev",
+   },
+   breakpoints: {
+    0: {
+       slidesPerView: 1,   
+     },
+     450:{
+       slidesPerView: 2,   
+     },
+     768: {
+       slidesPerView: 3, 
+     },
+     1024: {
+       slidesPerView: 4, 
+     },
+   },
+ });
+ 
     </script>
+
+     
 </body>
 
 </html>
