@@ -56,6 +56,7 @@ section{
     left: 78px;
     width: calc(100% - 78px);
     transition: all 0.5s ease;
+    /* transition-delay: 0.5s; */
     z-index: 2;
     width: 100%;
     margin: 0;
@@ -66,6 +67,7 @@ section{
     left: 175px;
     width: calc(100% - 175px);
     transition: all 0.5s ease;
+    transition-delay: 0.3s;
 }
   
 
@@ -160,6 +162,8 @@ section{
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
+    background-color: #111111;
+    z-index: 10;
 }
 
 .heading::before{
@@ -170,7 +174,7 @@ section{
     transform: translateY(-50%);
     width: 100%;
     height: 0.01rem;
-    background: rgb(255, 255, 255);
+    background: white;
     z-index: -1;
 }
 
@@ -181,6 +185,7 @@ section{
     color: white;
     border: 1px solid white;
     background: #fff;
+    z-index: 10;
 }
 
 .featured .featured-slider .box{
@@ -198,6 +203,7 @@ section{
 
 .featured .featured-slider .box .image{
     padding: 1rem;
+    position: relative;
     /* background:linear-gradient(15deg, #eee 30% , #fff 30.1%); */
 }
 
@@ -239,9 +245,12 @@ section{
 }
 
 .featured .featured-slider .box .content{
-   background: #eee;
-   padding: 1.5rem;
-   color: rgb(0, 0, 0);
+    background: #eee;
+    padding: 1.5rem;
+    color: rgb(0, 0, 0);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .featured .featured-slider .box .content h3{
@@ -250,7 +259,7 @@ section{
 }
 
 .featured .featured-slider .box .content .price{
-    font-size: 2.2rem;
+    font-size: 18px;
     color: var(--black);
     padding-top: 1rem;
 }

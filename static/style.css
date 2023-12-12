@@ -1,10 +1,17 @@
 /* Google Font Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
 body {
   /* background-color: #cba3f8; */
   background-color: #000000;
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -21,7 +28,7 @@ body {
 .sign {
   padding-top: 40px;
   color: #583595;
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
   font-weight: bold;
   font-size: 23px;
 }
@@ -43,7 +50,7 @@ body {
   /* margin-left: 46px; */
   text-align: center;
   margin-bottom: 27px;
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
 }
 
 form.form1 {
@@ -67,7 +74,7 @@ form.form1 {
   /* margin-left: 46px; */
   text-align: center;
   margin-bottom: 27px;
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
 }
 
 
@@ -87,7 +94,7 @@ form.form1 {
   padding-right: 40px;
   padding-bottom: 10px;
   padding-top: 10px;
-  font-family: 'Ubuntu', sans-serif;
+  /* font-family: 'Ubuntu', sans-serif; */
   /* margin-left: 35%; */
   font-size: 13px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
@@ -120,13 +127,6 @@ a {
   .main {
     border-radius: 0px;
   }
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* font-family: "Poppins", sans-serif; */
 }
 
 .sidebar {
@@ -408,9 +408,10 @@ a {
 .home-section .text {
   display: inline-block;
   color: #ffffff;
-  font-size: 25px;
-  font-weight: 700;
-  margin: 20px
+  font-size: 40px;
+  font-weight: 500;
+  margin-left: 60px;
+  margin-top: 50px;
 }
 
 @media (max-width: 420px) {
@@ -441,8 +442,8 @@ a {
 }
 
 .generate-btn {
-  background-color: rgba(48, 214, 56, 0.866);
-  color: white;
+  background-color: white;
+  color: black;
   border-radius: 5px;
   padding: 5px 8px;
   border: none;
@@ -488,6 +489,12 @@ a {
   font-size: 20px;
   display: inline;
   color: white;
+}
+
+.prediction-div{
+  background-color: #111111;
+  border-radius: 10px;
+  height: fit-content;
 }
 
 .loader {

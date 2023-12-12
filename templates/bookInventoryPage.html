@@ -26,6 +26,11 @@
     <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
     <!------- swipper cdn link ------------>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <script>
+        function searchBook(name){
+            console.log(name)
+        }
+    </script>
 </head>
 
 <body>
@@ -80,7 +85,7 @@
             <li class="profile">
                 <div class="profile-details">
                     <div class="name_job">
-                        <div class="name">Anuj & Sakshi</div>
+                        <div class="name">{{user["username"]}}</div>
                         <div class="job">Developers</div>
                     </div>
                 </div>
@@ -93,7 +98,7 @@
 
             <div style="width: 300px; position: absolute; right: 140px; top: 15px;">
                 <div class="input-group rounded">
-                    <input type="search"  style="background-color: transparent;"  class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <input onchange="searchBook(value)" type="search"  style="background-color: transparent;"  class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <span class="input-group-text border-0" id="search-addon">
                       <i class="fas fa-search"></i>
                     </span>
@@ -112,338 +117,60 @@
                 <div class="swiper books-list" >
     
                     <div class="swiper-wrapper" style="background-color: transparent">
-                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-1.png" alt=""></a>
-                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-2.png" alt=""></a>
+                        {% for i in range(29, 39) %}
+                            <a href="" class="swiper-slide" style="background-color: transparent; "><img src="{{ df.loc[i, 'Image-URL-L'] }}" alt="{{ df.loc[i, 'Book-Title'] }}" style="height: 265px; width: 160px;"></a>
+                        {% endfor %}
+                        
+                        <!-- <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-2.png" alt=""></a>
                         <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-3.png" alt=""></a>
                         <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-4.png" alt=""></a>
                         <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-5.png" alt=""></a>
-                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-6.png" alt=""></a>
+                        <a href="" class="swiper-slide" style="background-color: transparent"><img src="./static/book-6.png" alt=""></a> -->
                     </div>
                     <img src="./static/stand.png" class="stand" alt="">
                 </div>
             </div>
         </section>
         
-        <section class="featured" id="featured" style="background-color: #111111; margin: 0; padding: 50px 78px 0 0;">
+        {% for genre in genres %}
+        <section class="featured" id="{{ genre }}" style="background-color: #111111; margin: 0; padding: 50px 78px 0 0;">
+            {% if genre == "(No Genres Listed)" %}
+            <h1 class="heading"><span style="background-color: #111111; color: white;">Genre-Free</span></h1>
+            {% else %}
+            <h1 class="heading"><span style="background-color: #111111; color: white;">{{ genre }}</span></h1>
+            {% endif %}
             
-            <h1 class="heading" ><span style="background-color: #111111; color: white;">Featured books</span></h1>
-    
+        
             <div class="swiper featured-slider">
                 <div class="swiper-wrapper">
+
+                    {%for index, row in df.loc[df['Genre'] == genre].iterrows() %}
                     <div class="swiper-slide box">
                         <!-- <div class="icons">
                             <a href="" class="fas fa-search"></a>
                             <a href="" class="fas fa-heart"></a>
                             <a href="" class="fas fa-eye"></a>
                         </div> -->
-    
-                        <div class="image">
-                            <img src="./static/book-1.png" alt="">
+                        <div id="{{row['Image-URL-L']}}" class="image">
+                            <img style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; width: 140px; height: 22rem;" src="/static/nocover.png" alt="">
+                            <img style="position: relative;" src="{{row['Image-URL-L']}}" alt="" onerror="this.onerror=null; this.src='/static/nocover.png'">
+                            
                         </div>
     
                         <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
+                            <h3>{{row['Book-Title']}}</h3>
+                            <div class="price">{{row['Book-Author']}}</div>
                             
                         </div>
                     </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-2.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                    
-                        <div class="image">
-                            <img src="./static/book-3.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-4.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-5.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-6.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-7.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-8.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box" style="background-color: transparent">
-    
-                        <div class="image">
-                            <img src="./static/book-9.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-10.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-1.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
+                    {% endfor %}
         </section>
-
-        <section class="featured" id="featured" style="background-color: #111111; margin: 0; padding: 50px 78px 0 0;">
-            <h1 class="heading" ><span style="background-color: #111111; color: white;">Featured books</span></h1>
-    
-            <div class="swiper featured-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide box">
-                        <!-- <div class="icons">
-                            <a href="" class="fas fa-search"></a>
-                            <a href="" class="fas fa-heart"></a>
-                            <a href="" class="fas fa-eye"></a>
-                        </div> -->
-    
-                        <div class="image">
-                            <img src="./static/book-1.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-2.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                    
-                        <div class="image">
-                            <img src="./static/book-3.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-4.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-5.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-6.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-7.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-8.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box" style="background-color: transparent">
-    
-                        <div class="image">
-                            <img src="./static/book-9.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-    
-                        <div class="image">
-                            <img src="./static/book-10.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-    
-                    <div class="swiper-slide box">
-                        <div class="image">
-                            <img src="./static/book-1.png" alt="">
-                        </div>
-    
-                        <div class="content">
-                            <h3>featured book</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </section>
-
-
-
-
-
-
-    </section>
-    
-    
-   
+        {% endfor %}
+        <!-- {% block javascript %}
+            <script>
+                genres
+            </script>
+        {% endblock %} -->
 
 
      <!---- swiper cdn link ---------->
@@ -485,10 +212,6 @@
                 xhttp.send(body);
             })
 
-        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-            sidebar.classList.toggle("open");
-            menuBtnChange(); //calling the function(optional)
-        });
 
         // following are the code to change sidebar button(optional)
         function menuBtnChange() {
@@ -498,60 +221,59 @@
                 closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
             }
         }
-/*-------- swiper ---------- */
+        /*-------- swiper ---------- */
 
-var swiper = new Swiper(".books-list", {
-   
-   loop:true,
-   centeredSlides:true,
-   autoplay:{
-       delay:9500,
-       disableOnInteraction:false,
-   },
-   breakpoints: {
-    0: {
-       slidesPerView: 1,   
-     },
-     768: {
-       slidesPerView: 2, 
-     },
-     1024: {
-       slidesPerView: 3, 
-     },
-   },
- });
+        var swiper = new Swiper(".books-list", {
+        
+        loop:true,
+        centeredSlides:true,
+        autoplay:{
+            delay:9500,
+            disableOnInteraction:false,
+        },
+        breakpoints: {
+            0: {
+            slidesPerView: 1,   
+            },
+            768: {
+            slidesPerView: 2, 
+            },
+            1024: {
+            slidesPerView: 3, 
+            },
+        },
+        });
 
- /*-------- featured section start ---------- */
+        /*-------- featured section start ---------- */
 
-var swiper = new Swiper(".featured-slider", {
-   
-   spaceBetween:10,
-   loop:true,
-   centeredSlides:true,
-   autoplay:{
-       delay:9500,
-       disableOnInteraction:false,
-   },
-   navigation:{
-       nextEl:".swiper-button-next",
-       prevEl:".swiper-button-prev",
-   },
-   breakpoints: {
-    0: {
-       slidesPerView: 1,   
-     },
-     450:{
-       slidesPerView: 2,   
-     },
-     768: {
-       slidesPerView: 3, 
-     },
-     1024: {
-       slidesPerView: 4, 
-     },
-   },
- });
- 
+        var swiper = new Swiper(".featured-slider", {
+        
+        spaceBetween:10,
+        loop:true,
+        centeredSlides:true,
+        autoplay:{
+            delay:9500,
+            disableOnInteraction:false,
+        },
+        navigation:{
+            nextEl:".swiper-button-next",
+            prevEl:".swiper-button-prev",
+        },
+        breakpoints: {
+            0: {
+            slidesPerView: 1,   
+            },
+            450:{
+            slidesPerView: 2,   
+            },
+            768: {
+            slidesPerView: 3, 
+            },
+            1024: {
+            slidesPerView: 4, 
+            },
+        },
+        });
     </script>
 
      

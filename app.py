@@ -5,7 +5,7 @@ import openai
 openai.organization = "org-pTFO2JxZoSba7tx1UEqvixSo"
 openai.api_key = "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"
 openai.Model.list()
-from analysis import saveChart, loadDataset
+from analysis import saveChart, loadDataset, getPredictionData, getDataframe
 from qualityChecker import checkQuality
 from firebase_config import getUserById, getUserByPass, registerUser
 from salesPrediction import predictSales
@@ -136,7 +136,21 @@ def dashboardPage():
 
 @app.route('/bookInventory', methods=['GET', 'POST'])
 def bookInventoryPage():
-    return render_template('bookInventoryPage.html')
+    if session.get("username"):
+        res = getSessionData()
+        if res:
+            if admin["databaseType"]:
+                dataRes = getDataframe(app, admin, admin["databaseType"], admin["path"])
+                if dataRes["status"]:
+                    df = dataRes["data"]
+                    genreSet = set(df["Genre"])
+                    genreList = list(genreSet)
+                    genreList.sort()
+                    return render_template('bookInventoryPage.html', df=df, genres=genreList, user = admin)
+        else:
+            print("Exception occured while going to Bookshelf")
+    else:
+        return redirect("/")
 
 @app.route('/salesPrediction', methods=['GET', 'POST'])
 def salesPrediction():
@@ -147,7 +161,11 @@ def salesPrediction():
         return res
 
     else:
-        return render_template('salesPredictionPage.ejs')
+        if session.get("username"):
+            res = getPredictionData(app, admin)
+            return render_template('salesPredictionPage.ejs', authors=res["authors"], genres=res["genres"], languages=res["languages"], publishers=res["publishers"], user = admin )
+        else:
+            return redirect("/")
 
 @app.route('/autogeneration', methods=['GET', 'POST'])
 def autogenerationPage():
@@ -160,7 +178,10 @@ def autogenerationPage():
         
         return res
     else:
-        return render_template('autogenerationPage.ejs')
+        if session.get("username"):
+            return render_template('autogenerationPage.ejs', user = admin)
+        else:
+            return redirect("/")
 
 @app.route('/qualityEvaluation',  methods=['GET', 'POST'])
 def qualityEvaluationPage():
@@ -168,8 +189,11 @@ def qualityEvaluationPage():
         # print("Aagya bhai blog : ", request.form['blog'])
         score = checkQuality(request.form['blog'])
         return score
-    
-    return render_template('qualityEvaluationPage.ejs')
+    else:
+        if session.get("username"):
+            return render_template('qualityEvaluationPage.ejs', user = admin)
+        else:
+            return redirect("/")
 
 # OpenApi to generate post
 def generatePost(promt):
@@ -200,8 +224,15 @@ def connectToDatabase():
 @app.route('/getAnalysis', methods=['GET', 'POST'])
 def getAnalysis():
     # loadDataset(app, "MONGO", "")
-    res = saveChart()
-    return res
+    if session.get("username"):
+        dataRes = loadDataset(app, admin, admin["databaseType"], admin["path"])
+        if dataRes["status"]:
+            res = saveChart()
+            return res
+        else:
+            return dataRes
+    else:
+        return redirect("/")
 
 if __name__ == "__main__":
     # cred = credentials.Certificate("firebase_key.json")
