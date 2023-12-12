@@ -77,13 +77,13 @@ def loginPage():
             return json.dumps({"status" : False})
     else:
         if session.get("username") == None:
-            return render_template('loginPage.html')
+            return render_template('signupPage.html')
         else:
             res = getSessionData()
             if res:
                 return render_template('dashboard.ejs', user = admin)
             else:
-                return render_template('loginPage.html')
+                return render_template('signupPage.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
