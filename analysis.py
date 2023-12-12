@@ -12,6 +12,9 @@ from bson.objectid import ObjectId
 warnings.filterwarnings("ignore")
 matplotlib.use('agg')
 import json
+from firebase_config import updateUser
+
+mainDataframe = None
 
 def getUser(app, id):   # Load user from OUR database
     from flask_pymongo import PyMongo
@@ -21,37 +24,92 @@ def getUser(app, id):   # Load user from OUR database
     return user
 
 
-def loadDataset(app, type):     #Load data from USER's database
-    if type == "CSV":
-        # Load csv file
-        print()
+def loadDataset(app, user, type, path):     #Load data from USER's database
+    global mainDataframe
+    if type == "CSV": # Load csv file
+        try:
+            print("While loading dataset, User : ", user, "Path : ", path)
+            import pandas as pd
+            mainDataframe =  pd.read_csv(path, encoding_errors= 'replace')
+            res = updateUser(user["id"], {"databaseType" : "CSV", "path" : path})
+            return res
+        except Exception as e:
+            print("Exception occured while loading data : ", e)
+            return {"status" : False}
 
-    elif type == "MONGO":
-        # Load mongoDB
+    elif type == "MONGO": # Load mongoDB
         import pandas as pd
         from flask_pymongo import PyMongo
 
         print("In mongo!")
-
         try:
-            app.config["MONGO_URI"] = "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
             db = PyMongo(app).db
             print("Database Connected!")
-            # doc = db.books.find().limit(5)
+            docs = db.books.find()
+            mainDataframe = pd.DataFrame(list(docs))
+            res = updateUser(user["id"], {"databaseType" : "MONGO", "path" : path})
+            return res
             # for x in doc:
             #     print(x["Book-Title"])
-        except:
-            print("An exception occured")
+            # return True
+        except Exception as e:
+            print("Exception occured while loading data : ", e)
+            return {"status" : False}
 
     else :
         print("Type currently unavailable")
+        return {"status" : False}
+
+def getPredictionData(app, user, type, path):
+    if type == "CSV": # Load csv file
+        try:
+            import pandas as pd
+            df =  pd.read_csv(path, encoding_errors= 'replace')
+
+            # Create sets with unique values
+            authorsSet = set(df["Book-Author"])
+            genreSet = set(df["Genre"])
+            langaugeSet = set(df["Language"])
+            publisherSet = set(df["Publisher"])
+
+            authorsList = list(authorsSet)
+            genreList = list(genreSet)
+            langaugeList = list(langaugeSet)
+            publisherList = list(publisherSet)
+            return {"authors" : authorsList, "genres" : genreList, "languages" : langaugeList, "publishers" : publisherList}
+        
+        except Exception as e:
+            print("Exception occured while fetching predictionData : ", e)
+            return {"status" : False}
+
+    elif type == "MONGO": # Load mongoDB
+        import pandas as pd
+        from flask_pymongo import PyMongo
+        try:
+            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+            db = PyMongo(app).db
+            print("Database Connected!")
+            docs = db.books.find()
+            mainDataframe = pd.DataFrame(list(docs))
+            res = updateUser(user["id"], {"databaseType" : "MONGO", "path" : path})
+            return res
+            # for x in doc:
+            #     print(x["Book-Title"])
+            # return True
+        except Exception as e:
+            print("Exception occured while loading data : ", e)
+            return {"status" : False}
 
 def saveChart():
     import pandas as pd
     import plotly.express as px
     # Assuming df contains your data with a "Language" column
 
-    df = pd.read_csv("static/final_dataset.csv", encoding_errors= 'replace') 
+    if not isinstance(mainDataframe, pd.DataFrame):
+        return {"status" : False}
+
+    df = mainDataframe
 
     # ******************** Most Preferred Language ********************
 

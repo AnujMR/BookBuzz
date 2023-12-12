@@ -6,7 +6,6 @@ from firebase_admin import firestore
 cred = credentials.Certificate('firebase_key.json')
 firebase_admin.initialize_app(cred)
 
-# Read a document from Firestore
 def getUserByPass(username, password):
     db = firestore.client()
     
@@ -19,13 +18,36 @@ def getUserByPass(username, password):
     # Check if any documents match the conditions
     if documents:
         for document in documents:
-            print('Document data:', document.to_dict())
-            return document.to_dict()
+            userDoc = document.to_dict()
+            userDoc.update({"id" : document.id})
+            print('Document data:', userDoc)
+            return userDoc
     else:
         print('No such document!')
         return None
 
-# Read a document from Firestore
+def updateUser(uid, body):
+    db = firestore.client()
+    
+    doc_ref = db.collection("users").document(uid)
+    
+    # Get the documents returned by the query
+    document = doc_ref.get()
+    print(document.to_dict())
+    
+    if document:
+        document.reference.update(body)
+        print("User updated successfully")
+        updatedDocRef = db.collection("users").document(uid)
+        updatedDocument = updatedDocRef.get()
+        userDoc = updatedDocument.to_dict()
+        userDoc.update({"id" : updatedDocument.id})
+        print('Updated user data:', userDoc)
+        return {"status" : True, "user" : userDoc}    
+    else:
+        print('No such document!')
+        return {"status" : False}
+
 def getUserById(uid):
     db = firestore.client()
     doc_ref = db.collection("users").document(uid)
@@ -35,4 +57,18 @@ def getUserById(uid):
         # print('Document data:', document.to_dict())
     else:
         print('No such document!')
+
+def registerUser(body):
+    try:
+        db = firestore.client()
+        doc_ref = db.collection("users").document()
+        doc_ref.set(body)
+        userDoc = doc_ref.to_dict()
+        userDoc.update({"id" : doc_ref.id})
+        print('New user data:', userDoc)
+        return {"status" : True, "user" : userDoc}
+    except Exception as e:
+        print("Exception occured while registering user : ", e)
+        return {"status" : False}
+
 

@@ -40,44 +40,48 @@
                     var res = JSON.parse(this.response)
                     console.log(res);
 
-                    var pie = document.getElementsByClassName("pie_analysis");
-                    var authorrating = document.getElementsByClassName("authorvsrating");
-                    var genre = document.getElementsByClassName("genrewise");
-                    var authorwise = document.getElementsByClassName("authorwise");
-                    var topbook = document.getElementsByClassName("topbook");
-                    var yearlysales = document.getElementsByClassName("yearlysales");
-                    var ratingvssales = document.getElementsByClassName("ratingvssales");
+                    if(res["status"] != false){
+                        var pie = document.getElementsByClassName("pie_analysis");
+                        var authorrating = document.getElementsByClassName("authorvsrating");
+                        var genre = document.getElementsByClassName("genrewise");
+                        var authorwise = document.getElementsByClassName("authorwise");
+                        var topbook = document.getElementsByClassName("topbook");
+                        var yearlysales = document.getElementsByClassName("yearlysales");
+                        var ratingvssales = document.getElementsByClassName("ratingvssales");
 
 
-                    for (var i = pie.length - 1; i >= 0; --i) {
-                        pie[i].setAttribute("src", res[0]);
+                        for (var i = pie.length - 1; i >= 0; --i) {
+                            pie[i].setAttribute("src", res[0]);
+                        }
+
+                        for (var i = authorrating.length - 1; i >= 0; --i) {
+                            authorrating[i].setAttribute("src", res[1]);
+                        }
+
+                        for (var i = genre.length - 1; i >= 0; --i) {
+                            genre[i].setAttribute("src", res[2]);
+                        }
+
+                        for (var i = authorwise.length - 1; i >= 0; --i) {
+                            authorwise[i].setAttribute("src", res[3]);
+                        }
+
+                        for (var i = topbook.length - 1; i >= 0; --i) {
+                            topbook[i].setAttribute("src", res[4]);
+                        }
+
+                        for (var i = yearlysales.length - 1; i >= 0; --i) {
+                            yearlysales[i].setAttribute("src", res[5]);
+                        }
+
+                        for (var i = ratingvssales.length - 1; i >= 0; --i) {
+                            ratingvssales[i].setAttribute("src", res[6]);
+                        }
+
+                        console.log('updated!!');
                     }
 
-                    for (var i = authorrating.length - 1; i >= 0; --i) {
-                        authorrating[i].setAttribute("src", res[1]);
-                    }
-
-                    for (var i = genre.length - 1; i >= 0; --i) {
-                        genre[i].setAttribute("src", res[2]);
-                    }
-
-                    for (var i = authorwise.length - 1; i >= 0; --i) {
-                        authorwise[i].setAttribute("src", res[3]);
-                    }
-
-                    for (var i = topbook.length - 1; i >= 0; --i) {
-                        topbook[i].setAttribute("src", res[4]);
-                    }
-
-                    for (var i = yearlysales.length - 1; i >= 0; --i) {
-                        yearlysales[i].setAttribute("src", res[5]);
-                    }
-
-                    for (var i = ratingvssales.length - 1; i >= 0; --i) {
-                        ratingvssales[i].setAttribute("src", res[6]);
-                    }
-
-                    console.log('updated!!');
+                    
                 }
             };
             xhttp.open("GET", "getAnalysis", true);
@@ -162,28 +166,59 @@
                     Connect to Database
                 </button>
                 <ul class="dropdown-menu" style="width: 100%;">
-                    <li><a class="dropdown-item" href="#">CSV File</a></li>
+                    <li><p id="openCsv" class="dropdown-item">CSV File</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#">MongoDB</a></li>
+                    <li><p id="openMongo" class="dropdown-item">MongoDB</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item disabled" href="#">SQL (Currenly Unavailable)</a></li>
+                    <li><p class="dropdown-item disabled">SQL (Currenly Unavailable)</a></li>
                 </ul>
             </div>
         </div>
-        
-            <!-- <div class="sec-center">
-                <input class="dropdown" type="checkbox" id="dropdown" name="dropdown" />
-                <label class="for-dropdown" for="dropdown">Dropdown Menu <i class="uil uil-arrow-down"></i></label>
-                <div class="section-dropdown" style="width: 30%; text-align: center;">
-                    <a href="#" class="dropdown-item">Dropdown Link <i class="uil"></i></a>
-                    <a href="#" class="dropdown-item">Dropdown Link <i class="uil"></i></a>
-                    <a href="#" class="dropdown-item">Dropdown Link <i class="uil"></i></a>
+        <div id="firstModal">
+            <div class="modal-container" id="mongoForm">
+                <div class="modal-content" style="width: 400px">
+                    <h2>Enter MongoDB URI</h2>
+                    <form action="/connectToDatabase" method="post">
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col">
+                                <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">URI : </h2>
+                                    <input type="text" name="path" value="" class="modal-text-field"
+                                        style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                        required>
+                                    <input type="text" name="type" value="MONGO" style="display: none;">
+                                    <button type="submit" class="add-student-btn-save" id="saveMongo">SAVE</button>
+                                    <button type="reset" class="add-student-btn-close" id="closeMongo">CANCEL</button>
+                            </div>
+            
+                    </form>
                 </div>
-            </div> -->
+            </div>
+        </div>
+        <div id="secondModal">
+            <div class="modal-container" id="csvForm">
+                <div class="modal-content" style="width: 400px">
+                    <h2>Enter path to CSV file</h2>
+                    <form action="/connectToDatabase" method="post">
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col">
+                                <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">Path : </h2>
+                                    <input type="text" name="path" value="" class="modal-text-field"
+                                        style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                        required>
+                                    <input type="text" name="type" value="CSV" style="display: none;">
+                                    <button type="submit" class="add-student-btn-save" id="saveCsv">SAVE</button>
+                                    <button type="reset" class="add-student-btn-close" id="closeCsv">CANCEL</button>
+                            </div>
+            
+                    </form>
+                </div>
+            </div>
+        </div>
+             
     </section>
 
     {% else %}
@@ -317,12 +352,40 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
+        let logoutBtn = document.querySelector("#log_out");
         //  
 
         closeBtn.addEventListener("click", () => {
             sidebar.classList.toggle("open");
             menuBtnChange();//calling the function(optional)
         });
+
+        logoutBtn.addEventListener("click", ()=>{
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    // document.getElementById("loader").style.display = "none";
+
+                    var res = JSON.parse(this.response);
+                    console.log(res)
+
+                    if (res['status']) {
+                        window.location.assign("/")
+                    } else {
+                    }
+
+                    // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+
+                    console.log(this.responseText)
+
+                }
+            };
+            xhttp.open("POST", "logout", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            let body = ``;
+            xhttp.send(body);
+        })
 
         // searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
         //     sidebar.classList.toggle("open");
@@ -367,6 +430,34 @@
             }
         });
     </script>
+
+    <script>
+        const openCsv = document.getElementById('openCsv');
+        const closeCsv = document.getElementById('closeCsv');
+        const csvForm = document.getElementById('csvForm');
+
+        openCsv.addEventListener('click', () => {
+            csvForm.classList.add('show');
+        });
+
+        closeCsv.addEventListener('click', () => {
+            csvForm.classList.remove('show');
+        });
+
+        const openMongo = document.getElementById('openMongo');
+        const closeMongo = document.getElementById('closeMongo');
+        const mongoForm = document.getElementById('mongoForm');
+
+        openMongo.addEventListener('click', () => {
+            mongoForm.classList.add('show');
+        });
+
+        closeMongo.addEventListener('click', () => {
+            mongoForm.classList.remove('show');
+        });
+    </script>
+
+
 </body>
 
 </html>
