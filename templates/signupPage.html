@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
+    <title> BookBuzz </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="/static/signupPagestyle.css">
+    <script src="/static/snackbar_script.js"></script>
     <title>SignUp Page</title>
 </head>
 
@@ -13,7 +19,7 @@
 
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form>
+            <form name="f2">
                 <h1>Create Account</h1>
                 <!-- <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -22,14 +28,15 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registeration</span> -->
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <button class="black-button">Sign Up</button>
+                <input name="username" type="text" placeholder="Name" required>
+                <input name="email" type="email" placeholder="Email" required>
+                <input name="password" type="password" placeholder="Password" required>
+                <p id="error" style="color: red; font-size: 14px; display: none; margin-bottom: 20px;">Something went wrong! Please try again later</p>
+                <button type="button" class="black-button" onclick="signup()">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
-            <form>
+            <form name="f1">
                 <h1>Sign In</h1>
                 <!-- <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -38,10 +45,12 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email password</span> -->
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <a href="#">Forget Your Password?</a>
-                <button class="black-button">Sign In</button>
+                <input name="email" type="email" placeholder="Email" required>
+                <input name="password" type="password" placeholder="Password" required>
+                <!-- <a href="#">Forget Your Password?</a> -->
+                <p id="invalid" style="color: red; font-size: 14px; display: none; margin-bottom: 20px;">Invalid
+                    Credentials!</p>
+                <button type="button" class="black-button" onclick="login()">Sign In</button>
             </form>
         </div>
         <div class="toggle-container">
@@ -59,7 +68,12 @@
                 </div>
             </div>
         </div>
+
     </div>
+    <!-- snackbar -->
+    <div id="snackbar"></div>
+
+
 
    <script>
     const container = document.getElementById('container');
@@ -71,6 +85,85 @@
 
      loginBtn.addEventListener('click', () => {
     container.classList.remove("active");});
+   </script>
+
+   <script>
+            function login() {
+
+                    let email = document.f1.email.value.trimEnd();
+                    let password = document.f1.password.value.trimEnd();
+                    
+                    if(email == "" || password == "") return;
+
+                    // document.getElementById("loader").style.display = "inline-block";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+
+                            // document.getElementById("loader").style.display = "none";
+                            console.log(this.responseText)
+                            var res = JSON.parse(this.response);
+                            console.log(res)
+
+                            if (res["status"]) {
+                                document.getElementById("invalid").style.display = "none";
+                                showSnackBar("Login Successful", false)
+                                setTimeout(function(){
+                                    window.location.assign("/dashboard")
+                                }, 1000)
+                                // document.write(res["page"]);
+                            } else {
+                                document.getElementById("invalid").style.display = "block";
+                            }
+                            // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+                            console.log(this.responseText)
+
+                        }
+                    };
+                    xhttp.open("POST", "/", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    let body = `email=${email}&password=${password}`
+                    xhttp.send(body);
+                }
+
+            function signup() {
+
+                    let username = document.f2.username.value;
+                    let email = document.f2.email.value;
+                    let password = document.f2.password.value;
+
+                    // document.getElementById("loader").style.display = "inline-block";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+
+                            // document.getElementById("loader").style.display = "none";
+                            console.log(this.responseText)
+                            var res = JSON.parse(this.response);
+
+                            if (res['status']) {
+                                document.getElementById("error").style.display = "none";
+                                showSnackBar("Registered Successfully", false)
+                                setTimeout(function () {
+                                    window.location.assign("/dashboard")
+                                }, 1000)
+                                // document.write(res["page"]);
+                            } else {
+                                document.getElementById("error").style.display = "block";
+                                showSnackBar("Registration Failed", false)
+                            }
+                            // document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
+                            console.log(this.responseText)
+
+                        }
+                    };
+                    xhttp.open("POST", "signup", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    let body = `username=${username}&email=${email}&password=${password}`
+                    xhttp.send(body);
+                }
    </script>
 </body>
 

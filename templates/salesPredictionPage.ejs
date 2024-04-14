@@ -41,35 +41,35 @@
                         <span class="tooltip">Search</span>
                     </li> -->
             <li>
-                <a href="/dashboard">
+                <a href="/dashboard" onclick="showLoading()">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
             <li>
-                <a href="/autogeneration">
+                <a href="/autogeneration" onclick="showLoading()">
                     <i class="fa-solid fa-pen-clip fa-sm"></i>
                     <span class="links_name">Generate Post</span>
                 </a>
                 <span class="tooltip">Generate Post</span>
             </li>
             <li>
-                <a href="/qualityEvaluation">
+                <a href="/qualityEvaluation" onclick="showLoading()">
                     <i class="fa-solid fa-spell-check"></i>
                     <span class="links_name">Quality Evaluation</span>
                 </a>
                 <span class="tooltip">Quality Evaluation</span>
             </li>
             <li>
-                <a href="/salesPrediction">
+                <a href="/salesPrediction" onclick="showLoading()">
                     <i class="fa-solid fa-robot"></i>
                     <span class="links_name">Sales Prediction</span>
                 </a>
                 <span class="tooltip">Sales Prediction</span>
             </li>
             <li>
-                <a href="/bookInventory">
+                <a href="/bookInventory" onclick="showLoading()">
                     <i class="fa-solid fa-book"></i>
                     <span class="links_name">Bookshelf</span>
                 </a>
@@ -80,21 +80,106 @@
                 <div class="profile-details">
                     <div class="name_job">
                         <div class="name">{{user["username"]}}</div>
-                        <div class="job">Developers</div>
+                        <div class="job">Profile</div>
                     </div>
                 </div>
                 <i class='bx bx-log-out' id="log_out"></i>
             </li>
         </ul>
     </div>
+
+    <!-- Loading Section -->
+    <section id="loading-screen" class="home-section" style="display: none;">
+        <div class="loading-screen-div">
+            <img src="/static/loading_icon.gif" alt="loading" class="loading-icon">
+            <p style="font-size: 25px; font-weight: 500; color: white;">Loading Data...</p>
+        </div>
+    </section>
+
+        {% if user == None or user.databaseType == None %}
+        <section class="home-section">
+            <img src="/static/dashboard_bg.png" alt="Dashboard" class="blur-img" style="position: absolute;">
+            <!-- Example single danger button -->
+            <div
+                style="position: absolute; display: flex; justify-content: center; width: 100%; height: 100%; text-align: center; align-items: center;">
+                <div class="btn-group" style="box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);">
+                    <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Connect to Database
+                    </button>
+                    <ul class="dropdown-menu" style="width: 100%;">
+                        <li>
+                            <p id="openCsv" class="dropdown-item">CSV File</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <p id="openMongo" class="dropdown-item">MongoDB</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <p class="dropdown-item disabled">SQL (Currenly Unavailable)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="firstModal">
+                <div class="modal-container" id="mongoForm">
+                    <div class="modal-content" style="width: 400px">
+                        <h2>Enter MongoDB URI</h2>
+                        <form action="/connectToDatabase" method="post">
+                            <div class="row" style="justify-content: space-between;">
+                                <div class="col">
+                                    <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">URI : </h2>
+                                        <input type="text" name="path" value="" class="modal-text-field"
+                                            style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                            required>
+                                        <input type="text" name="type" value="MONGO" style="display: none;">
+                                        <button type="submit" class="add-student-btn-save" id="saveMongo">SAVE</button>
+                                        <button type="reset" class="add-student-btn-close" id="closeMongo">CANCEL</button>
+                                </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="secondModal">
+                <div class="modal-container" id="csvForm">
+                    <div class="modal-content" style="width: 400px">
+                        <h2>Enter path to CSV file</h2>
+                        <form action="/connectToDatabase" method="post">
+                            <div class="row" style="justify-content: space-between;">
+                                <div class="col">
+                                    <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">Path : </h2>
+                                        <input type="text" name="path" value="" class="modal-text-field"
+                                            style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                            required>
+                                        <input type="text" name="type" value="CSV" style="display: none;">
+                                        <button type="submit" class="add-student-btn-save" id="saveCsv">SAVE</button>
+                                        <button type="reset" class="add-student-btn-close" id="closeCsv">CANCEL</button>
+                                </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+        </section>
+        
+        {% else %}
     <section class="home-section">
+        
         <img src="/static/banner-bg.jpg"
-            style="height: 100%; width: 50%; position: absolute; right: 0; top: 0; z-index: -1;" alt="" srcset="">
+            style="height: 100%; width: 50%; position: absolute; right: 0; top: 0; z-index: -1; border-radius: 50px 0 0 50px;" alt="" srcset="">
+            <!-- <div style="height: 100%; width: 50%; position: absolute; right: 0; top: 0; z-index: 0; background-color: rgba(0, 0, 0, 0.107);"></div> -->
         <div class="text">SALES PREDICTION</div>
         <br>
         <br>
         <div class="row" style="margin-left: 2rem;">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <form action="/salesPrediction" method="post" name="f1">
                     <div class="row">
                         <div class="col-md-5">
@@ -179,24 +264,22 @@
                         <!-- <input type="number" name="rating" id="ratingField" class="text-field left-margin"> -->
                     </div>
                     <button type="button" onclick="predict()" class="generate-btn left-margin"
-                        style="margin-top: 50px; margin-left: 8rem;" id="generateBtn">Predict</button>
+                        style="margin-top: 50px; margin-left: 8rem; background: linear-gradient(to right, #9f9fa0, #ffffff); border: 1.5px solid white;" id="generateBtn">Predict</button>
 
                 </form>
             </div>
-            <div id="main-prediction" class="col-md-7 d-flex justify-content-center text-center"
-                style="margin-top: 20px;">
+            <div id="main-prediction" class="col-md-6 d-flex justify-content-center text-center"
+                style="margin-top: 40px;">
                 <div id="prediction-div" class="prediction-div">
                     <div>
                         <p style="font-size: 40px; font-weight: 500; padding: 10px; color: white;">
                             Predicted Sales
                         </p>
-                        <br>
-                        <br>
                     </div>
                     <div style=" margin-top: 40px;">
                         <p id="sales"
                             style="font-size: 60px; font-weight: 600; color: rgb(0, 255, 26); display: inline;"> -- </p>
-                        <p style="font-size: 35px; font-weight: 600; color: white;">Yearly Sales</p>
+                        <p style="font-size: 30px; font-weight: 600; color: white;">(Yearly Sales)</p>
                         <!-- <br>
                                         <br>
                                         <p id="percent" style="font-size: 30px; color: rgb(0, 255, 0); display: inline;">83.7% </p>
@@ -210,6 +293,8 @@
             </div>
         </div>
     </section>
+    {% endif %}
+
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
@@ -312,6 +397,42 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let body = `name=${name}&genre=${genre}&rating=${rating}&price=${price}&author=${author}&publisher=${publisher}&language=${language}`
             xhttp.send(body);
+        }
+
+        function showLoading() {
+                document.getElementById("loading-screen").style.display = "inline-block";
+                document.getElementById("home-section").style.display = "none";
+            }
+    </script>
+
+    <script>
+        const openCsv = document.getElementById('openCsv');
+        const closeCsv = document.getElementById('closeCsv');
+        const csvForm = document.getElementById('csvForm');
+
+        openCsv.addEventListener('click', () => {
+            csvForm.classList.add('show');
+        });
+
+        closeCsv.addEventListener('click', () => {
+            csvForm.classList.remove('show');
+        });
+
+        const openMongo = document.getElementById('openMongo');
+        const closeMongo = document.getElementById('closeMongo');
+        const mongoForm = document.getElementById('mongoForm');
+
+        openMongo.addEventListener('click', () => {
+            mongoForm.classList.add('show');
+        });
+
+        closeMongo.addEventListener('click', () => {
+            mongoForm.classList.remove('show');
+        });
+
+        function showLoading() {
+            document.getElementById("loading-screen").style.display = "inline-block";
+            document.getElementById("home-section").style.display = "none";
         }
     </script>
 </body>

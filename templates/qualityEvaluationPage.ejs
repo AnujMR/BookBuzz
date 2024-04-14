@@ -39,35 +39,35 @@
                         <span class="tooltip">Search</span>
                     </li> -->
             <li>
-                <a href="/dashboard">
+                <a href="/dashboard" onclick="showLoading()">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
             <li>
-                <a href="/autogeneration">
+                <a href="/autogeneration" onclick="showLoading()">
                     <i class="fa-solid fa-pen-clip fa-sm"></i>
                     <span class="links_name">Generate Post</span>
                 </a>
                 <span class="tooltip">Generate Post</span>
             </li>
             <li>
-                <a href="/qualityEvaluation">
+                <a href="/qualityEvaluation" onclick="showLoading()">
                     <i class="fa-solid fa-spell-check"></i>
                     <span class="links_name">Quality Evaluation</span>
                 </a>
                 <span class="tooltip">Quality Evaluation</span>
             </li>
             <li>
-                <a href="/salesPrediction">
+                <a href="/salesPrediction" onclick="showLoading()">
                     <i class="fa-solid fa-robot"></i>
                     <span class="links_name">Sales Prediction</span>
                 </a>
                 <span class="tooltip">Sales Prediction</span>
             </li>
             <li>
-                <a href="/bookInventory">
+                <a href="/bookInventory" onclick="showLoading()">
                     <i class="fa-solid fa-book"></i>
                     <span class="links_name">Bookshelf</span>
                 </a>
@@ -78,70 +78,155 @@
                 <div class="profile-details">
                     <div class="name_job">
                         <div class="name">{{user["username"]}}</div>
-                        <div class="job">Developers</div>
+                        <div class="job">Profile</div>
                     </div>
                 </div>
                 <i class='bx bx-log-out' id="log_out"></i>
             </li>
         </ul>
     </div>
+    <!-- Loading Section -->
+    <section id="loading-screen" class="home-section" style="display: none;">
+        <div class="loading-screen-div">
+        <img src="/static/loading_icon.gif" alt="loading" class="loading-icon">
+        <p style="font-size: 25px; font-weight: 500; color: white;">Loading Data...</p>
+    </div>
+    </section>
+
+    {% if user == None or user.databaseType == None %}
     <section class="home-section">
-        <div class="text">Quality Evaluation</div>
+        <img src="/static/dashboard_bg.png" alt="Dashboard" class="blur-img" style="position: absolute;">
+        <!-- Example single danger button -->
+        <div
+            style="position: absolute; display: flex; justify-content: center; width: 100%; height: 100%; text-align: center; align-items: center;">
+            <div class="btn-group" style="box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);">
+                <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Connect to Database
+                </button>
+                <ul class="dropdown-menu" style="width: 100%;">
+                    <li>
+                        <p id="openCsv" class="dropdown-item">CSV File</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <p id="openMongo" class="dropdown-item">MongoDB</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <p class="dropdown-item disabled">SQL (Currenly Unavailable)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="firstModal">
+            <div class="modal-container" id="mongoForm">
+                <div class="modal-content" style="width: 400px">
+                    <h2>Enter MongoDB URI</h2>
+                    <form action="/connectToDatabase" method="post">
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col">
+                                <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">URI : </h2>
+                                    <input type="text" name="path" value="" class="modal-text-field"
+                                        style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                        required>
+                                    <input type="text" name="type" value="MONGO" style="display: none;">
+                                    <button type="submit" class="add-student-btn-save" id="saveMongo">SAVE</button>
+                                    <button type="reset" class="add-student-btn-close" id="closeMongo">CANCEL</button>
+                            </div>
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="secondModal">
+            <div class="modal-container" id="csvForm">
+                <div class="modal-content" style="width: 400px">
+                    <h2>Enter path to CSV file</h2>
+                    <form action="/connectToDatabase" method="post">
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col">
+                                <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">Path : </h2>
+                                    <input type="text" name="path" value="" class="modal-text-field"
+                                        style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                        required>
+                                    <input type="text" name="type" value="CSV" style="display: none;">
+                                    <button type="submit" class="add-student-btn-save" id="saveCsv">SAVE</button>
+                                    <button type="reset" class="add-student-btn-close" id="closeCsv">CANCEL</button>
+                            </div>
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </section>
+    
+    {% else %}
+    <section id="home-section" class="home-section">
+        <img src="/static/banner-bg.jpg"
+            style="height: 100%; width: 50%; position: absolute; left: 0; top: 0; z-index: -1; border-radius: 0 50px 50px 0;"
+            alt="" srcset="">
+        <div class="text" style="color: #111111;">Quality Evaluation</div>
         <br>
-        <div class="row" style="margin-left: 10rem;">
+        <div class="row" style="margin-left: 2rem;">
             <div class="col-md-7">
                 <form action="/qualityEvaluation" method="post" name="f1">
                     <div style="margin-top: 20px;">
-                        <p class="text-field-title" style="font-weight: 600; font-size: 25px;">Blog</p>
-                        <textarea name="blog" id="blogField" cols="80" rows="15" class="text-field left-margin"
-                            style="text-align: start;"></textarea>
+                        <p class="text-field-title" style="font-size: 20px; color: #111111;">Blog</p>
+                        <textarea name="blog" id="blogField" cols="57" rows="15" class="text-field left-margin"
+                            style="text-align: start; color: #000;"></textarea>
                     </div>
-                    <button type="button" onclick="evaluateText()" class="generate-btn left-margin"
+                    <button type="button" onclick="evaluateText()" class="generate-btn left-margin primary-black-btn" style="margin-left: 100px;"
                         id="generateBtn">Evaluate</button>
 
                 </form>
             </div>
             <div class="col-md-3">
-                <div style="margin-top: 20px;">
-                    <div id="loader" class="loader" style="display: none; margin-top: 170px;"></div>
+                <div style="margin-top: -50px">
+                    <div id="loader" class="loader" style="visibility: hidden; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto 350px auto auto;"></div>
                     <p class="scores" style="font-size: 25px;">Score</p>
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Cohesion : </p>
+                        <p class="scores" style="color: black">Cohesion : </p>
                         <p class="scores" id="cohesion"> </p>
                     </div>
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Syntax : </p>
+                        <p class="scores" style="color: black">Syntax : </p>
                         <p class="scores" id="syntax"> </p>
                     </div>
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Vocabulary : </p>
+                        <p class="scores" style="color: black">Vocabulary : </p>
                         <p class="scores" id="vocabulary"> </p>
                     </div>
 
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Phraseology : </p>
+                        <p class="scores" style="color: black">Phraseology : </p>
                         <p class="scores" id="phraseology"> </p>
                     </div>
 
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Grammar : </p>
+                        <p class="scores" style="color: black">Grammar : </p>
                         <p class="scores" id="grammar"> </p>
                     </div>
 
                     <br>
                     <br>
                     <div class="score_div">
-                        <p class="scores">Conventions : </p>
+                        <p class="scores" style="color: black">Conventions : </p>
                         <p class="scores" id="conventions"> </p>
                     </div>
 
@@ -153,6 +238,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
@@ -224,14 +310,14 @@
                 x[i].style.display = 'none';
             }
 
-            document.getElementById("loader").style.display = "inline-block";
+            document.getElementById("loader").style.visibility = "visible";
 
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
 
 
-                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("loader").style.visibility = "hidden";
 
                     var res = JSON.parse(this.response);
                     document.getElementById("cohesion").innerHTML = res[0][0].toFixed(2);
@@ -246,6 +332,7 @@
                     var i;
                     for (i = 0; i < x.length; i++) {
                         x[i].style.display = 'inline';
+                        x[i].style.color = 'white';
                     }
 
                     var x = document.getElementsByClassName('score_div');
@@ -281,7 +368,43 @@
             let body = `blog=${blog}`
             xhttp.send(body);
         }
+
+        function showLoading(){
+            document.getElementById("loading-screen").style.display = "inline-block";
+            document.getElementById("home-section").style.display = "none";
+        }
     </script>
+
+        <script>
+            const openCsv = document.getElementById('openCsv');
+            const closeCsv = document.getElementById('closeCsv');
+            const csvForm = document.getElementById('csvForm');
+
+            openCsv.addEventListener('click', () => {
+                csvForm.classList.add('show');
+            });
+
+            closeCsv.addEventListener('click', () => {
+                csvForm.classList.remove('show');
+            });
+
+            const openMongo = document.getElementById('openMongo');
+            const closeMongo = document.getElementById('closeMongo');
+            const mongoForm = document.getElementById('mongoForm');
+
+            openMongo.addEventListener('click', () => {
+                mongoForm.classList.add('show');
+            });
+
+            closeMongo.addEventListener('click', () => {
+                mongoForm.classList.remove('show');
+            });
+
+            function showLoading() {
+                document.getElementById("loading-screen").style.display = "inline-block";
+                document.getElementById("home-section").style.display = "none";
+            }
+        </script>
 </body>
 
 </html>

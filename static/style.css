@@ -115,11 +115,12 @@ a {
   color: #E1BEE7;
 }
 
-.dropdown-item{
+.dropdown-item {
   width: 100%;
   text-align: center;
 }
-.dropdown-item:hover{
+
+.dropdown-item:hover {
   color: white;
 }
 
@@ -209,7 +210,6 @@ a {
   position: relative;
   margin: 8px 0;
   list-style: none;
-  
 }
 
 .sidebar li .tooltip {
@@ -280,7 +280,7 @@ a {
   color: #11101d;
 }
 
-.sidebar #log_out:hover{
+.sidebar #log_out:hover {
   cursor: pointer;
   color: red;
 }
@@ -291,6 +291,7 @@ a {
   width: 100%;
   border-radius: 12px;
   align-items: center;
+  justify-content: flex-start;
   text-decoration: none;
   transition: all 0.4s ease;
   background: #11101D;
@@ -308,6 +309,7 @@ a {
   opacity: 0;
   pointer-events: none;
   transition: 0.4s;
+  margin-left: 15px;
 }
 
 .sidebar.open li a .links_name {
@@ -425,14 +427,14 @@ a {
   border: 1.5px solid grey;
   border-radius: 5px;
   padding: 5px 10px;
-  background-color: #aaaaaa;
+  background-color: #c1c1c1;
   cursor: text;
-  color: white;
+  color: black;
 }
 
 .text-field-title {
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   margin-left: 20px
 }
@@ -451,7 +453,7 @@ a {
   display: block;
   font-size: 20px;
   font-weight: 500;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .generate-btn:hover {
@@ -469,7 +471,7 @@ a {
 .blur-img {
   width: 100%;
   height: 100%;
-  -webkit-filter: blur(30px); 
+  -webkit-filter: blur(30px);
   filter: blur(30px);
 }
 
@@ -491,10 +493,34 @@ a {
   color: white;
 }
 
-.prediction-div{
-  background-color: #111111;
+.prediction-div {
+  /* background-color: #111111; */
+  background-image: linear-gradient(to bottom right, #111111 50%, #5a5a5a);
+  box-shadow: rgba(0, 0, 0, 0.556) 7px 7px 15px;
+  border: 1px solid #ffffff;
   border-radius: 10px;
   height: fit-content;
+  padding: 20px;
+}
+
+.primary-white-btn {
+  background: linear-gradient(to right, #9f9fa0, #ffffff);
+  border: 1.5px solid white;
+  color: #000;
+}
+
+.primary-white-btn:active {
+  background: linear-gradient(to right, #7e7e7e, #b6b6b6);
+}
+
+.primary-black-btn {
+  background: linear-gradient(to right, #5e5f61, #000000);
+  border: 1.5px solid rgb(0, 0, 0);
+  color: #fff;
+}
+
+.primary-black-btn:active {
+  background: linear-gradient(to right, #3f3f41, #000000);
 }
 
 .loader {
@@ -523,6 +549,22 @@ a {
   background-color: rgb(181, 181, 181);
   border-radius: 5px;
   padding: 5px;
+}
+
+.loading-screen-div {
+  position: absolute;
+  top: 40%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+}
+
+.loading-icon{
+  width: 60px;
+  height: 60px;
 }
 
 /* Range Slider */
@@ -581,15 +623,17 @@ a {
   align-items: center;
   z-index: 200;
 }
+
 [type="checkbox"]:checked,
-[type="checkbox"]:not(:checked){
+[type="checkbox"]:not(:checked) {
   position: absolute;
   left: -9999px;
   opacity: 0;
   pointer-events: none;
 }
-.dark-light:checked + label,
-.dark-light:not(:checked) + label{
+
+.dark-light:checked+label,
+.dark-light:not(:checked)+label {
   position: fixed;
   top: 40px;
   right: 40px;
@@ -600,13 +644,15 @@ a {
   height: 46px;
   cursor: pointer;
   transition: all 200ms linear;
-  box-shadow: 0 0 25px rgba(255,235,167,.45);
+  box-shadow: 0 0 25px rgba(255, 235, 167, .45);
 }
-.dark-light:checked + label{
+
+.dark-light:checked+label {
   transform: rotate(360deg);
 }
-.dark-light:checked + label:after,
-.dark-light:not(:checked) + label:after{
+
+.dark-light:checked+label:after,
+.dark-light:not(:checked)+label:after {
   position: absolute;
   content: '';
   top: 1px;
@@ -625,11 +671,13 @@ a {
   transition: all 200ms linear;
   opacity: 0;
 }
-.dark-light:checked + label:after {
+
+.dark-light:checked+label:after {
   opacity: 1;
 }
-.dark-light:checked + label:before,
-.dark-light:not(:checked) + label:before{
+
+.dark-light:checked+label:before,
+.dark-light:not(:checked)+label:before {
   position: absolute;
   content: '';
   top: 0;
@@ -647,10 +695,12 @@ a {
   background-position: center;
   transition: all 200ms linear;
 }
-.dark-light:checked + label:before{
+
+.dark-light:checked+label:before {
   background-color: #000;
 }
-.light-back{
+
+.light-back {
   position: fixed;
   top: 0;
   left: 0;
@@ -666,11 +716,13 @@ a {
   transition: all 200ms linear;
   opacity: 0;
 }
-.dark-light:checked ~ .light-back{
+
+.dark-light:checked~.light-back {
   opacity: 1;
 }
-.dropdown:checked + label,
-.dropdown:not(:checked) + label{
+
+.dropdown:checked+label,
+.dropdown:not(:checked)+label {
   position: relative;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -698,15 +750,17 @@ a {
   background-color: #008cff;
   cursor: pointer;
   color: #ffffff;
-  box-shadow: 0 12px 35px 0 rgba(255,235,167,.15);
+  box-shadow: 0 12px 35px 0 rgba(255, 235, 167, .15);
 }
-.dark-light:checked ~ .sec-center .for-dropdown{
+
+.dark-light:checked~.sec-center .for-dropdown {
   background-color: #ffffff;
   color: #008cff;
-  box-shadow: 0 12px 35px 0 rgba(16,39,112,.25);
+  box-shadow: 0 12px 35px 0 rgba(16, 39, 112, .25);
 }
-.dropdown:checked + label:before,
-.dropdown:not(:checked) + label:before{
+
+.dropdown:checked+label:before,
+.dropdown:not(:checked)+label:before {
   position: fixed;
   top: 0;
   left: 0;
@@ -717,34 +771,38 @@ a {
   cursor: auto;
   pointer-events: none;
 }
-.dropdown:checked + label:before{
+
+.dropdown:checked+label:before {
   pointer-events: auto;
 }
-.dropdown:not(:checked) + label .uil {
+
+.dropdown:not(:checked)+label .uil {
   font-size: 24px;
   margin-left: 10px;
   transition: transform 200ms linear;
 }
-.dropdown:checked + label .uil {
+
+.dropdown:checked+label .uil {
   transform: rotate(180deg);
   font-size: 24px;
   margin-left: 10px;
   transition: transform 200ms linear;
 }
+
 .section-dropdown {
   display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    -ms-justify-content: center;
-    justify-content: center;
-    -ms-flex-pack: center;
-    text-align: center;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
   position: absolute;
   padding: 5px;
   background-color: #ffffff;
@@ -752,22 +810,25 @@ a {
   text-align: center;
   width: 100%;
   border-radius: 4px;
-  box-shadow: 0 14px 35px 0 rgba(9,9,12,0.4);
+  box-shadow: 0 14px 35px 0 rgba(9, 9, 12, 0.4);
   z-index: 2;
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
   transition: all 200ms linear;
 }
-.dark-light:checked ~ .sec-center .section-dropdown {
+
+.dark-light:checked~.sec-center .section-dropdown {
   background-color: #fff;
-  box-shadow: 0 14px 35px 0 rgba(9,9,12,0.15);
+  box-shadow: 0 14px 35px 0 rgba(9, 9, 12, 0.15);
 }
-.dropdown:checked ~ .section-dropdown{
+
+.dropdown:checked~.section-dropdown {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
+
 .section-dropdown:before {
   position: absolute;
   top: -20px;
@@ -778,21 +839,23 @@ a {
   display: block;
   z-index: 1;
 }
+
 .section-dropdown:after {
   position: absolute;
   top: -7px;
   left: 30px;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 8px solid transparent;
-  border-right: 8px solid transparent; 
+  border-right: 8px solid transparent;
   border-bottom: 8px solid #111;
   content: '';
   display: block;
   z-index: 2;
   transition: all 200ms linear;
 }
-.dark-light:checked ~ .sec-center .section-dropdown:after {
+
+.dark-light:checked~.sec-center .section-dropdown:after {
   border-bottom: 8px solid #fff;
 }
 
@@ -817,25 +880,30 @@ a {
   -ms-align-items: center;
   align-items: center;
   justify-content: space-between;
-    -ms-flex-pack: distribute;
+  -ms-flex-pack: distribute;
 }
-.dark-light:checked ~ .sec-center .section-dropdown a {
+
+.dark-light:checked~.sec-center .section-dropdown a {
   color: #ffffff;
 }
+
 a:hover {
   color: #ffffff;
   background-color: #008cff;
   text-decoration: none !important;
 }
-.dark-light:checked ~ .sec-center .section-dropdown a:hover {
+
+.dark-light:checked~.sec-center .section-dropdown a:hover {
   color: #008cff;
   background-color: #ffffff;
 }
+
 a .uil {
   font-size: 22px;
 }
-.dropdown-sub:checked + label,
-.dropdown-sub:not(:checked) + label{
+
+.dropdown-sub:checked+label,
+.dropdown-sub:not(:checked)+label {
   position: relative;
   color: #fff;
   transition: all 200ms linear;
@@ -855,29 +923,35 @@ a .uil {
   -ms-align-items: center;
   align-items: center;
   justify-content: space-between;
-    -ms-flex-pack: distribute;
-    cursor: pointer;
+  -ms-flex-pack: distribute;
+  cursor: pointer;
 }
-.dropdown-sub:checked + label .uil,
-.dropdown-sub:not(:checked) + label .uil{
+
+.dropdown-sub:checked+label .uil,
+.dropdown-sub:not(:checked)+label .uil {
   font-size: 22px;
 }
-.dropdown-sub:not(:checked) + label .uil {
+
+.dropdown-sub:not(:checked)+label .uil {
   transition: transform 200ms linear;
 }
-.dropdown-sub:checked + label .uil {
+
+.dropdown-sub:checked+label .uil {
   transform: rotate(135deg);
   transition: transform 200ms linear;
 }
-.dropdown-sub:checked + label:hover,
-.dropdown-sub:not(:checked) + label:hover{
+
+.dropdown-sub:checked+label:hover,
+.dropdown-sub:not(:checked)+label:hover {
   color: #ffffff;
   background-color: #008cff;
 }
-.dark-light:checked ~ .sec-center .section-dropdown .for-dropdown-sub{
+
+.dark-light:checked~.sec-center .section-dropdown .for-dropdown-sub {
   color: #ffffff;
 }
-.dark-light:checked ~ .sec-center .section-dropdown .for-dropdown-sub:hover{
+
+.dark-light:checked~.sec-center .section-dropdown .for-dropdown-sub:hover {
   color: #008cff;
   background-color: #ffffff;
 }
@@ -894,19 +968,22 @@ a .uil {
   overflow: hidden;
   transition: all 200ms linear;
 }
-.dropdown-sub:checked ~ .section-dropdown-sub{
+
+.dropdown-sub:checked~.section-dropdown-sub {
   pointer-events: auto;
   opacity: 1;
   max-height: 999px;
 }
+
 .section-dropdown-sub a {
   font-size: 14px;
 }
+
 .section-dropdown-sub a .uil {
   font-size: 20px;
 }
 
-.dark-light:checked ~ .logo img{
+.dark-light:checked~.logo img {
   filter: brightness(10%);
 }
 
@@ -990,4 +1067,94 @@ a .uil {
 
 .add-student-btn-save:hover {
   background-color: rgba(25, 165, 32, 0.866);
+}
+
+
+/* Snackbar */
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden;
+  /* Hidden by default. Visible on click */
+  min-width: 250px;
+  /* Set a default minimum width */
+  margin-left: -125px;
+  /* Divide value of min-width by 2 */
+  background-color: #00da28;
+  /* Black background color */
+  color: #fff;
+  /* White text color */
+  text-align: center;
+  /* Centered text */
+  border-radius: 2px;
+  /* Rounded borders */
+  padding: 16px;
+  /* Padding */
+  position: fixed;
+  /* Sit on top of the screen */
+  z-index: 1;
+  /* Add a z-index if needed */
+  left: 50%;
+  /* Center the snackbar */
+  bottom: 30px;
+  /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible;
+  /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

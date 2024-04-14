@@ -40,35 +40,35 @@
                     <span class="tooltip">Search</span>
                 </li> -->
             <li>
-                <a href="/dashboard">
+                <a href="/dashboard" onclick="showLoading()">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
             <li>
-                <a href="/autogeneration">
+                <a href="/autogeneration" onclick="showLoading()">
                     <i class="fa-solid fa-pen-clip fa-sm"></i>
                     <span class="links_name">Generate Post</span>
                 </a>
                 <span class="tooltip">Generate Post</span>
             </li>
             <li>
-                <a href="/qualityEvaluation">
+                <a href="/qualityEvaluation" onclick="showLoading()">
                     <i class="fa-solid fa-spell-check"></i>
                     <span class="links_name">Quality Evaluation</span>
                 </a>
                 <span class="tooltip">Quality Evaluation</span>
             </li>
             <li>
-                <a href="/salesPrediction">
+                <a href="/salesPrediction" onclick="showLoading()">
                     <i class="fa-solid fa-robot"></i>
                     <span class="links_name">Sales Prediction</span>
                 </a>
                 <span class="tooltip">Sales Prediction</span>
             </li>
             <li>
-                <a href="/bookInventory">
+                <a href="/bookInventory" onclick="showLoading()">
                     <i class="fa-solid fa-book"></i>
                     <span class="links_name">Bookshelf</span>
                 </a>
@@ -79,49 +79,129 @@
                 <div class="profile-details">
                     <div class="name_job">
                         <div class="name">{{user["username"]}}</div>
-                        <div class="job">Developers</div>
+                        <div class="job">Profile</div>
                     </div>
                 </div>
                 <i class='bx bx-log-out' id="log_out"></i>
             </li>
         </ul>
     </div>
-    <section class="home-section">
+    <!-- Loading Section -->
+    <section id="loading-screen" class="home-section" style="display: none;">
+        <div class="loading-screen-div">
+            <img src="/static/loading_icon.gif" alt="loading" class="loading-icon">
+            <p style="font-size: 25px; font-weight: 500; color: white;">Loading Data...</p>
+        </div>
+    </section>
 
-        <div class="text" style="margin-bottom: 5rem;">Generate Post</div>
-        <br>
-        <div class="row" style="margin-left: 10rem;">
+        {% if user == None or user.databaseType == None %}
+        <section class="home-section">
+            <img src="/static/dashboard_bg.png" alt="Dashboard" class="blur-img" style="position: absolute;">
+            <!-- Example single danger button -->
+            <div
+                style="position: absolute; display: flex; justify-content: center; width: 100%; height: 100%; text-align: center; align-items: center;">
+                <div class="btn-group" style="box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);">
+                    <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Connect to Database
+                    </button>
+                    <ul class="dropdown-menu" style="width: 100%;">
+                        <li>
+                            <p id="openCsv" class="dropdown-item">CSV File</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <p id="openMongo" class="dropdown-item">MongoDB</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <p class="dropdown-item disabled">SQL (Currenly Unavailable)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="firstModal">
+                <div class="modal-container" id="mongoForm">
+                    <div class="modal-content" style="width: 400px">
+                        <h2>Enter MongoDB URI</h2>
+                        <form action="/connectToDatabase" method="post">
+                            <div class="row" style="justify-content: space-between;">
+                                <div class="col">
+                                    <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">URI : </h2>
+                                        <input type="text" name="path" value="" class="modal-text-field"
+                                            style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                            required>
+                                        <input type="text" name="type" value="MONGO" style="display: none;">
+                                        <button type="submit" class="add-student-btn-save" id="saveMongo">SAVE</button>
+                                        <button type="reset" class="add-student-btn-close" id="closeMongo">CANCEL</button>
+                                </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="secondModal">
+                <div class="modal-container" id="csvForm">
+                    <div class="modal-content" style="width: 400px">
+                        <h2>Enter path to CSV file</h2>
+                        <form action="/connectToDatabase" method="post">
+                            <div class="row" style="justify-content: space-between;">
+                                <div class="col">
+                                    <p style="margin-top: 1rem; margin-bottom: 1px; font-size: 20px;">Path : </h2>
+                                        <input type="text" name="path" value="" class="modal-text-field"
+                                            style="width: max-content; width: 100%; display: block; text-align: start; font-size: 18px;"
+                                            required>
+                                        <input type="text" name="type" value="CSV" style="display: none;">
+                                        <button type="submit" class="add-student-btn-save" id="saveCsv">SAVE</button>
+                                        <button type="reset" class="add-student-btn-close" id="closeCsv">CANCEL</button>
+                                </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+        </section>
+        
+        {% else %}
+    <section class="home-section">
+        <div class="text" style="margin-bottom: 2rem;">Generate Post</div>
+        <div class="row" style="margin-left: 2rem;">
             <div class="col-md-5">
                 <form action="/autogeneration" method="post" name="f1">
                     <div>
-                        <p class="text-field-title">Book Name</p>
+                        <p class="text-field-title" style="margin-bottom: 5px;">Book Name</p>
                         <input type="text" name="name" id="nameField" class="text-field left-margin">
                     </div>
-                    <div style="margin-top: 20px;">
-                        <p class="text-field-title">Genre</p>
+                    <div style="margin-top: 15px;">
+                        <p class="text-field-title" style="margin-bottom: 5px;">Genre</p>
                         <input type="text" name="genre" id="genreField" class="text-field left-margin">
                     </div>
-                    <div style="margin-top: 20px;">
-                        <p class="text-field-title">Author Name</p>
+                    <div style="margin-top: 15px;">
+                        <p class="text-field-title" style="margin-bottom: 5px;">Author Name</p>
                         <input type="text" name="author" id="authorField" class="text-field left-margin">
                     </div>
-                    <div style="margin-top: 20px;">
-                        <p class="text-field-title">Short Description</p>
+                    <div style="margin-top: 15px;">
+                        <p class="text-field-title" style="margin-bottom: 5px;">Short Description</p>
                         <textarea name="description" id="descriptionField" cols="50" rows="5"
                             class="text-field left-margin" style="text-align: start;"></textarea>
                     </div>
-                    <div style="margin-top: 20px;">
-                        <p class="text-field-title">Keywords (optional)</p>
+                    <div style="margin-top: 15px;">
+                        <p class="text-field-title" style="margin-bottom: 5px;">Keywords (optional)</p>
                         <input type="text" name="keywords" id="keywordsField" class="text-field left-margin"
                             style="text-align: start;">
                     </div>
-                    <button type="button" onclick="generateText()" class="generate-btn left-margin"
+                    <button type="button" onclick="generateText()" class="generate-btn left-margin primary-white-btn"
                         id="generateBtn">Generate</button>
 
                 </form>
             </div>
             <div class="col-md-5">
-                <div style="margin-top: 20px;">
+                <div>
                     <p class="text-field-title">Generated Text</p>
                     <textarea readonly="true" name="generated_txt" id="generated-txt" cols="70" rows="20"
                         class="text-field left-margin"
@@ -131,6 +211,8 @@
         </div>
 
     </section>
+    {% endif %}
+
     <script>
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
@@ -200,6 +282,42 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let body = `name=${name}&genre=${genre}&author=${author}&description=${description}&keywords=${keywords}`
             xhttp.send(body);
+        }
+
+        function showLoading() {
+                document.getElementById("loading-screen").style.display = "inline-block";
+                document.getElementById("home-section").style.display = "none";
+            }
+    </script>
+
+    <script>
+        const openCsv = document.getElementById('openCsv');
+        const closeCsv = document.getElementById('closeCsv');
+        const csvForm = document.getElementById('csvForm');
+
+        openCsv.addEventListener('click', () => {
+            csvForm.classList.add('show');
+        });
+
+        closeCsv.addEventListener('click', () => {
+            csvForm.classList.remove('show');
+        });
+
+        const openMongo = document.getElementById('openMongo');
+        const closeMongo = document.getElementById('closeMongo');
+        const mongoForm = document.getElementById('mongoForm');
+
+        openMongo.addEventListener('click', () => {
+            mongoForm.classList.add('show');
+        });
+
+        closeMongo.addEventListener('click', () => {
+            mongoForm.classList.remove('show');
+        });
+
+        function showLoading() {
+            document.getElementById("loading-screen").style.display = "inline-block";
+            document.getElementById("home-section").style.display = "none";
         }
     </script>
 </body>

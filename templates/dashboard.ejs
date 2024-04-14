@@ -109,35 +109,35 @@
                 <span class="tooltip">Search</span>
             </li> -->
             <li>
-                <a href="/dashboard">
+                <a href="/dashboard" onclick="showLoading()">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
             <li>
-                <a href="/autogeneration">
+                <a href="/autogeneration" onclick="showLoading()">
                     <i class="fa-solid fa-pen-clip fa-sm"></i>
                     <span class="links_name">Generate Post</span>
                 </a>
                 <span class="tooltip">Generate Post</span>
             </li>
             <li>
-                <a href="/qualityEvaluation">
+                <a href="/qualityEvaluation" onclick="showLoading()">
                     <i class="fa-solid fa-spell-check"></i>
                     <span class="links_name">Quality Evaluation</span>
                 </a>
                 <span class="tooltip">Quality Evaluation</span>
             </li>
             <li>
-                <a href="/salesPrediction">
+                <a href="/salesPrediction" onclick="showLoading()">
                     <i class="fa-solid fa-robot"></i>
                     <span class="links_name">Sales Prediction</span>
                 </a>
                 <span class="tooltip">Sales Prediction</span>
             </li>
             <li>
-                <a href="/bookInventory">
+                <a href="/bookInventory" onclick="showLoading()">
                     <i class="fa-solid fa-book"></i>
                     <span class="links_name">Bookshelf</span>
                 </a>
@@ -148,7 +148,7 @@
                 <div class="profile-details">
                     <div class="name_job">
                         <div class="name">{{user["username"]}}</div>
-                        <div class="job">Developers</div>
+                        <div class="job">Profile</div>
                     </div>
                 </div>
                 <i class='bx bx-log-out' id="log_out"></i>
@@ -156,6 +156,14 @@
         </ul>
     </div>
     
+    <!-- Loading Section -->
+    <section id="loading-screen" class="home-section" style="display: none;">
+        <div class="loading-screen-div">
+            <img src="/static/loading_icon.gif" alt="loading" class="loading-icon">
+            <p style="font-size: 25px; font-weight: 500; color: white;">Loading Data...</p>
+        </div>
+    </section>
+
     {% if user == None or user.databaseType == None %}
     <section class="home-section">
         <img src="/static/dashboard_bg.png" alt="Dashboard" class="blur-img" style="position: absolute;">
@@ -353,8 +361,7 @@
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
         let logoutBtn = document.querySelector("#log_out");
-        //  
-
+        
         closeBtn.addEventListener("click", () => {
             sidebar.classList.toggle("open");
             menuBtnChange();//calling the function(optional)
@@ -455,6 +462,11 @@
         closeMongo.addEventListener('click', () => {
             mongoForm.classList.remove('show');
         });
+
+        function showLoading() {
+                document.getElementById("loading-screen").style.display = "inline-block";
+                document.getElementById("home-section").style.display = "none";
+            }
     </script>
 
 

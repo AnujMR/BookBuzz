@@ -6,11 +6,11 @@ from firebase_admin import firestore
 cred = credentials.Certificate('firebase_key.json')
 firebase_admin.initialize_app(cred)
 
-def getUserByPass(username, password):
+def getUserByPass(email, password):
     db = firestore.client()
     
-    # Query documents where 'username' is equal to 'anuj'
-    doc_ref = db.collection("users").where("username", "==", username).where("password", "==", password)
+    # Query documents where 'email' is equal to 'anuj@gmail.com'
+    doc_ref = db.collection("users").where("email", "==", email).where("password", "==", password)
     
     # Get the documents returned by the query
     documents = doc_ref.get()
@@ -21,10 +21,10 @@ def getUserByPass(username, password):
             userDoc = document.to_dict()
             userDoc.update({"id" : document.id})
             print('Document data:', userDoc)
-            return userDoc
+            return {"status" : True, "user" : userDoc}
     else:
         print('No such document!')
-        return None
+        return {"status" : False}
 
 def updateUser(uid, body):
     db = firestore.client()
@@ -63,10 +63,16 @@ def registerUser(body):
         db = firestore.client()
         doc_ref = db.collection("users").document()
         doc_ref.set(body)
-        userDoc = doc_ref.to_dict()
-        userDoc.update({"id" : doc_ref.id})
-        print('New user data:', userDoc)
-        return {"status" : True, "user" : userDoc}
+        document = doc_ref.get()
+        if document.exists:
+            userDoc = document.to_dict()
+            userDoc.update({"id" : document.id})
+            print('New user data:', userDoc)
+            return {"status" : True, "user" : userDoc}
+        else:
+            print("User does not exist, sry")
+            return {"status" : False}
+
     except Exception as e:
         print("Exception occured while registering user : ", e)
         return {"status" : False}

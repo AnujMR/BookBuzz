@@ -65,12 +65,12 @@ def getSessionData():
 @app.route('/', methods=['GET', 'POST'])
 def loginPage():
     global admin 
-    if request.method == 'POST':
-        admin = getUserByPass(request.form['username'], request.form['password'])
-        setSessionData(admin)
-        print(admin)
-        # print(request.form)
-        if admin != None:
+    if request.method == 'POST': 
+        res = getUserByPass(request.form['email'], request.form['password'])
+        if(res["status"]):
+            admin = res["user"]
+            setSessionData(admin)
+            # print(admin)
             return json.dumps({"status" : True})
         else:
             print("Invalid Credentials!")
@@ -108,9 +108,9 @@ def signup():
             admin = res["user"]
             setSessionData(admin) 
             print(admin)
-            return {"status" : True}
+            return json.dumps({"status" : True})
         else: 
-            return {"status" : False}
+            return json.dumps({"status" : False})
 
 # @app.route('/getAdminDetails', methods=['GET', 'POST'])
 # def getAdminDetails():
@@ -145,7 +145,7 @@ def bookInventoryPage():
                     df = dataRes["data"]
                     genreSet = set(df["Genre"])
                     genreList = list(genreSet)
-                    genreList.sort()
+                    # genreList.sort()
                     return render_template('bookInventoryPage.html', df=df, genres=genreList, user = admin)
         else:
             print("Exception occured while going to Bookshelf")
@@ -162,8 +162,11 @@ def salesPrediction():
 
     else:
         if session.get("username"):
-            res = getPredictionData(app, admin)
-            return render_template('salesPredictionPage.ejs', authors=res["authors"], genres=res["genres"], languages=res["languages"], publishers=res["publishers"], user = admin )
+            if session.get("path"):
+                res = getPredictionData(app, admin)
+                return render_template('salesPredictionPage.ejs', authors=res["authors"], genres=res["genres"], languages=res["languages"], publishers=res["publishers"], user = admin )
+            else:
+                return render_template('salesPredictionPage.ejs', authors=[], genres=[], languages=[], publishers=[], user = admin )
         else:
             return redirect("/")
 
@@ -171,7 +174,7 @@ def salesPrediction():
 def autogenerationPage():
     if request.method == 'POST':
         
-        promt = "Create a compelling 80-word minimum promotional post to upload on social media to boost book sales for a book with the following details: : Book Name - %s, Genre - %s, Author - %s, Description - %s, Important Keywords - %s. Craft an attention-grabbing post that will entice readers to discover this literary gem and make a purchase." % (request.form['name'], request.form['genre'], request.form['author'], request.form['description'], request.form['keywords'])
+        promt = "Create a compelling 80-word minimum promotional post to upload on social media to boost book sales for a book with the following details: : Book Name - %s, Genre - %s, Author - %s, Description - %s, Important Keywords - %s. Craft an attention-grabbing post including emojis that will entice readers to discover this literary gem and make a purchase." % (request.form['name'], request.form['genre'], request.form['author'], request.form['description'], request.form['keywords'])
         print(promt)
         print(request.form)
         res = generatePost(promt)
