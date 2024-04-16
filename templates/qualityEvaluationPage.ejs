@@ -234,6 +234,9 @@
                     <br>
                     <p class="scores">Overall Quality : </p>
                     <p class="scores" id="overall"> </p>
+                    <br>
+                    <p class="scores">Overall Sentiment : </p>
+                    <p class="scores" id="sentiment"> </p>
                 </div>
             </div>
         </div>
@@ -326,6 +329,7 @@
                     document.getElementById("phraseology").innerHTML = res[0][3].toFixed(2);
                     document.getElementById("grammar").innerHTML = res[0][4].toFixed(2);
                     document.getElementById("conventions").innerHTML = res[0][5].toFixed(2);
+                    document.getElementById("sentiment").innerHTML = res[2];
                     var avg = res[1].toFixed(2)
 
                     var x = document.getElementsByClassName('scores');

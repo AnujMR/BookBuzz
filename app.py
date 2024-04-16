@@ -10,11 +10,13 @@ from qualityChecker import checkQuality
 from firebase_config import getUserById, getUserByPass, registerUser
 from salesPrediction import predictSales
 import json
+import requests, uuid, json
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 admin = None
+generatedText = ""
 Session(app)
 
 def clearSessionData():
@@ -173,19 +175,73 @@ def salesPrediction():
 @app.route('/autogeneration', methods=['GET', 'POST'])
 def autogenerationPage():
     if request.method == 'POST':
-        
-        promt = "Create a compelling 80-word minimum promotional post to upload on social media to boost book sales for a book with the following details: : Book Name - %s, Genre - %s, Author - %s, Description - %s, Important Keywords - %s. Craft an attention-grabbing post including emojis that will entice readers to discover this literary gem and make a purchase." % (request.form['name'], request.form['genre'], request.form['author'], request.form['description'], request.form['keywords'])
-        print(promt)
-        print(request.form)
-        res = generatePost(promt)
-        
-        return res
+        #POST GENERATION
+        # promt = "Create a compelling 80-word minimum promotional post to upload on social media to boost book sales for a book with the following details: : Book Name - %s, Genre - %s, Author - %s, Description - %s, Important Keywords - %s. Craft an attention-grabbing post including emojis that will entice readers to discover this literary gem and make a purchase." % (request.form['name'], request.form['genre'], request.form['author'], request.form['description'], request.form['keywords'])
+        # print(promt)
+        # print(request.form)
+        # res = generatePost(promt)
+        global generatedText
+        generatedText = "Hello my name is sakshi"
+        return "Hello my name is sakshi"
     else:
         if session.get("username"):
             return render_template('autogenerationPage.ejs', user = admin)
         else:
             return redirect("/")
 
+@app.route('/translation',  methods=['GET', 'POST'])
+def translationPage():
+    if request.method == 'POST':
+        #POST TRANSLATION
+        selectedlanguage=""
+        if request.form["language"] == "Hindi":
+            selectedlanguage = "hi"
+        elif request.form["language"] == "Marathi":
+            selectedlanguage = "mr"
+        elif request.form["language"] == "French":
+            selectedlanguage = "fr"
+        elif request.form["language"] == "German":
+            selectedlanguage = "de"
+        elif request.form["language"] == "Spanish":
+            selectedlanguage = "es"
+        else:
+            selectedlanguage="en"
+        # Add your key and endpoint
+        key = "99870fb1b29b4bb7b7251ff4eff44e4a"
+        endpoint = "https://api.cognitive.microsofttranslator.com"
+
+        # location, also known as region.
+        # required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
+        location = "southcentralus"
+
+        path = '/translate'
+        constructed_url = endpoint + path
+
+        params = {
+            'api-version': '3.0',
+            'from': 'en',
+            'to':  [selectedlanguage]
+        }
+
+        headers = {
+            'Ocp-Apim-Subscription-Key': key,
+            # location required if you're using a multi-service or regional (not global) resource.
+            'Ocp-Apim-Subscription-Region': location,
+            'Content-type': 'application/json',
+            'X-ClientTraceId': str(uuid.uuid4())
+        }
+
+        # You can pass more than one object in body.
+        body = [{
+            'text': generatedText
+        }]
+
+        req = requests.post(constructed_url, params=params, headers=headers, json=body)
+        response = req.json()
+
+        print(json.dumps(response, sort_keys=True, ensure_ascii=False, indent=4, separators=(',', ': ')))
+        return response[0]["translations"][0]["text"]
+    
 @app.route('/qualityEvaluation',  methods=['GET', 'POST'])
 def qualityEvaluationPage():
     if request.method == 'POST':

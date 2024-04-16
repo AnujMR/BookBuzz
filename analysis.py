@@ -13,6 +13,16 @@ warnings.filterwarnings("ignore")
 matplotlib.use('agg')
 import json
 from firebase_config import updateUser
+from azure.cosmos import CosmosClient
+from azure.identity import DefaultAzureCredential
+
+from azure.cosmos import CosmosClient
+
+#CosmosDb Connection
+URL = 'https://sakshisavardekar.documents.azure.com:443/'
+KEY = 'zgd4cDX3PDYh3XuG0fKLFCMLIbv3MkseE04lpNsCcxUshsbC00Z0tXEQFoSsK6tWSI1jbihPLZX0ACDbVlaoFQ=='
+client = CosmosClient(URL, credential=KEY)
+print("Client Created")
 
 mainDataframe = None
 
@@ -38,11 +48,22 @@ def getDataframe(app, user, type, path):
         import pandas as pd
         from flask_pymongo import PyMongo
         try:
-            app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
-            db = PyMongo(app).db
-            print("Database Connected!")
-            docs = db.books.find()
-            df = pd.DataFrame(list(docs))
+            # app.config["MONGO_URI"] = path # "mongodb+srv://anujramane22:22anuj100@bookbuzz.lyrkznh.mongodb.net/bookbuzz"
+            # db = PyMongo(app).db
+            # print("Database Connected!")
+            # docs = db.books.find()
+            database = client.get_database_client("BookBuzz")
+            container = database.get_container_client("books")
+            queryText = "SELECT * FROM books"
+            results = container.query_items(
+                query=queryText,
+                enable_cross_partition_query=True,
+            )
+
+            items = [item for item in results]
+            output = json.loads(json.dumps(items))
+            # print("Output :", output)
+            df = pd.DataFrame(output)
             return {"status" : True, "data" : df}
         except Exception as e:
             print("Exception occured while loading data : ", e)

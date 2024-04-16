@@ -256,7 +256,25 @@ def checkQuality(blog):
     loaded_model = pickle.load(open("static/final_model.sav", 'rb'))
     predictions = loaded_model.predict(X_test_tfIdf)
     print(predictions)
-    return json.dumps([predictions.tolist()[0], sum(predictions.tolist()[0])/len(predictions.tolist()[0])]) 
+
+    import os
+    from azure.core.credentials import AzureKeyCredential
+    from azure.ai.textanalytics import TextAnalyticsClient
+    endpoint = "https://sakshilangresource.cognitiveservices.azure.com/"
+    key = "f255d9a8741441c9bf604e0a3c65eb63"
+    text_analytics_client = TextAnalyticsClient(endpoint, AzureKeyCredential(key))
+
+    documents = [blog]
+
+    result = text_analytics_client.analyze_sentiment(documents, show_opinion_mining=True)
+    docs = [doc for doc in result if not doc.is_error]
+
+    print("Let's visualize the sentiment of each of these documents")
+    for idx, doc in enumerate(docs):
+        print(f"Document text: {documents[idx]}")
+        print(f"Overall sentiment: {doc.sentiment}")
+
+    return json.dumps([predictions.tolist()[0], sum(predictions.tolist()[0])/len(predictions.tolist()[0]), doc.sentiment]) 
     # for x in predictions:
     #     print()
     #     print("Avg : ",sum(x)/len(x))

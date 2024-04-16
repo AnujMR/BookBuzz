@@ -24,6 +24,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script src="https://kit.fontawesome.com/7f212a760d.js" crossorigin="anonymous"></script>
+
+    <script>
+    function translateText(){
+        let language = document.f1.language.value;
+        console.log("Print translation function")
+        if (language === "") return;
+        console.log("After if statement")
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("generated-txt").value = this.responseText;
+            }
+        };
+        xhttp.open("POST", "translation", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let body = `language=${language}&text=${document.getElementById("generated-txt").value}` 
+        xhttp.send(body);
+    }</script>
 </head>
 
 <body>
@@ -170,9 +188,10 @@
         {% else %}
     <section class="home-section">
         <div class="text" style="margin-bottom: 2rem;">Generate Post</div>
+
+        <form action="/autogeneration" method="post" name="f1">
         <div class="row" style="margin-left: 2rem;">
             <div class="col-md-5">
-                <form action="/autogeneration" method="post" name="f1">
                     <div>
                         <p class="text-field-title" style="margin-bottom: 5px;">Book Name</p>
                         <input type="text" name="name" id="nameField" class="text-field left-margin">
@@ -197,18 +216,31 @@
                     </div>
                     <button type="button" onclick="generateText()" class="generate-btn left-margin primary-white-btn"
                         id="generateBtn">Generate</button>
-
-                </form>
             </div>
             <div class="col-md-5">
+                <datalist id="languages">
+                    {% set languageList= ["Hindi","Marathi","French","Spanish", "German"] %}
+                    {% for i in range(0, languageList|length)%}
+                    <option>
+                        {{languageList[i]}}
+                    </option>
+                    {% endfor %}
+                </datalist>
+                <div style="margin-bottom: 20px;">
+                    <p class="text-field-title">Select Language</p>
+                    <input autoComplete="on"  onchange="translateText()" list="languages" type="text" name="language" id="languagefield"
+                        class="text-field left-margin">
+                </div>
                 <div>
                     <p class="text-field-title">Generated Text</p>
-                    <textarea readonly="true" name="generated_txt" id="generated-txt" cols="70" rows="20"
+                    <textarea readonly="true" name="generated_txt" id="generated-txt" cols="70" rows="15"
                         class="text-field left-margin"
                         style="text-align: start; background-color:rgb(60, 61, 61); color: white;"></textarea>
                 </div>
             </div>
+        </form>
         </div>
+        
 
     </section>
     {% endif %}
@@ -283,6 +315,8 @@
             let body = `name=${name}&genre=${genre}&author=${author}&description=${description}&keywords=${keywords}`
             xhttp.send(body);
         }
+
+        
 
         function showLoading() {
                 document.getElementById("loading-screen").style.display = "inline-block";
